@@ -1,9 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
-import BebasNeueEot from './assets/fonts/BebasNeue-Regular.eot';
-import BebasNeueOtf from './assets/fonts/BebasNeue-Regular.otf';
-import BebasNeueTtf from './assets/fonts/BebasNeue-Regular.ttf';
-import BebasNeueWoff from './assets/fonts/BebasNeue-Regular.woff';
-import BebasNeueWoff2 from './assets/fonts/BebasNeue-Regular.woff2';
+import BebasNeueEot from '../../assets/fonts/BebasNeue-Regular.eot';
+import BebasNeueOtf from '../../assets/fonts/BebasNeue-Regular.otf';
+import BebasNeueTtf from '../../assets/fonts/BebasNeue-Regular.ttf';
+import BebasNeueWoff from '../../assets/fonts/BebasNeue-Regular.woff';
+import BebasNeueWoff2 from '../../assets/fonts/BebasNeue-Regular.woff2';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {

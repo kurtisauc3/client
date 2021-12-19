@@ -1,6 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
+const appData = require('./appData.json');
 
 function createAppWindow() {
   let win = new BrowserWindow({
@@ -28,3 +29,7 @@ function createAppWindow() {
 
 app.on('ready', createAppWindow);
 app.on('window-all-closed', app.quit);
+
+ipcMain.on('appData', (event, arg) => {
+  event.returnValue = appData;
+});
