@@ -13,5 +13,4 @@ const appData: AppData = sendSync('appData');
 const { id, name, secret, version } = appData;
 const wrapper = new BrainCloudWrapper(name);
 wrapper.initialize(id, secret, version);
-console.log('init');
 export default wrapper;
