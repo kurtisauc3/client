@@ -1,1 +1,7 @@
-{}
+{
+  "login.signIn": "sign in",
+  "login.username": "username",
+  "login.password": "password",
+  "login.error.40208": "user does not exist",
+  "login.error.40307": "invalid credentials"
+}

@@ -1,5 +1,5 @@
 import React, { createContext, FC, useCallback, useState } from 'react';
-import wrapper from '../services/wrapper';
+import api from '../services/brainCloudClient';
 
 interface IAuthContext {
   authenticated: boolean;
@@ -14,7 +14,7 @@ const AuthProvider: FC = ({ children }) => {
   const login = useCallback(
     (username: string, password: string) => {
       if (!authenticated) {
-        wrapper.authenticateUniversal(username, password, false, (result) => {
+        api.authentication.authenticateUniversal(username, password, false, (result) => {
           if ('data' in result) {
             setAuthenticated(true);
           }
@@ -24,13 +24,13 @@ const AuthProvider: FC = ({ children }) => {
     [authenticated]
   );
   const logout = useCallback(() => {
-    if (authenticated) {
-      wrapper.playerState.logout((result) => {
-        if ('data' in result) {
-          setAuthenticated(false);
-        }
-      });
-    }
+    // if (authenticated) {
+    api.playerState.logout((result) => {
+      if ('data' in result) {
+        setAuthenticated(false);
+      }
+    });
+    // }
   }, [authenticated]);
 
   return (

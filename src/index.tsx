@@ -4,15 +4,15 @@ import App from './App';
 import { IntlProvider } from 'react-intl';
 import messages from './assets/languages/en.json';
 import GlobalStyle from './core/components/GlobalStyle';
-import UserStateProvider from './core/providers/UserState';
+import AuthProvider from './core/providers/Auth';
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />
     <IntlProvider locale="en" defaultLocale="en" messages={messages as Record<string, string>}>
-      <UserStateProvider>
+      <AuthProvider>
         <App />
-      </UserStateProvider>
+      </AuthProvider>
     </IntlProvider>
   </React.StrictMode>,
   document.getElementById('root')

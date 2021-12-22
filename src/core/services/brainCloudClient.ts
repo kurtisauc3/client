@@ -11,6 +11,6 @@ type AppData = {
 const { sendSync } = electron.ipcRenderer;
 const appData: AppData = sendSync('appData');
 const { id, name, secret, version } = appData;
-const wrapper = new BrainCloudWrapper(name);
-wrapper.initialize(id, secret, version);
-export default wrapper;
+const { brainCloudClient } = new BrainCloudWrapper(name);
+brainCloudClient.initialize(id, secret, version);
+export default brainCloudClient;

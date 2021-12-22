@@ -28,6 +28,9 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     overflow: hidden;
   }
+  #root {
+    display: flex;
+  }
 `;
 
 export default GlobalStyle;
