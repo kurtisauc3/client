@@ -8,7 +8,9 @@ declare module 'braincloud' {
     status: number;
     status_message: string;
   };
-  type IAuthenticateUniversal = {};
+  type Result<T> = SuccessResult<T> | ErrorResult;
+  type AuthenticateUniversalResult = {};
+  type PlayerStateLogoutResult = {};
   class BrainCloudWrapper {
     constructor(name: string);
     initialize(id: string, secret: string, version: string);
@@ -16,8 +18,11 @@ declare module 'braincloud' {
       userId: string,
       password: string,
       forceCreate: boolean,
-      callback: (result: SuccessResult<IAuthenticateUniversal> | ErrorResult) => void
+      callback: (result: Result<AuthenticateUniversalResult>) => void
     );
+    playerState: {
+      logout(callback: (result: Result<PlayerStateLogoutResult>) => void);
+    };
     getStoredProfileId(): string;
   }
 }

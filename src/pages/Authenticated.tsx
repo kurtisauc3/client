@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 const Component: FC = () => {
-  return <>room</>;
+  return <>authenticated</>;
 };
 
 export default Component;
