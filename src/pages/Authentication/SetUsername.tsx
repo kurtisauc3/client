@@ -1,13 +1,13 @@
+import Form from 'core/components/Form';
+import { AuthContext, ISetUsername } from 'core/providers/Auth';
 import React, { FC, useContext } from 'react';
-import Form from '../../core/components/Form';
-import { AuthContext, IForgotPassword } from '../../core/providers/Auth';
 
 const Component: FC = () => {
-  const { forgotPassword } = useContext(AuthContext);
+  const { setUsername } = useContext(AuthContext);
 
   return (
-    <Form<IForgotPassword>
-      titleKey="forgotPassword"
+    <Form<ISetUsername>
+      titleKey="setUsername"
       fieldData={{
         username: {
           editorType: 'input',
@@ -17,7 +17,7 @@ const Component: FC = () => {
           }
         }
       }}
-      onSubmit={forgotPassword}
+      onSubmit={setUsername}
     />
   );
 };

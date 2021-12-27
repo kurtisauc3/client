@@ -9,9 +9,15 @@ type ErrorResult = {
   status_message: string;
 };
 type Result<T> = SuccessResult<T> | ErrorResult;
-type AuthenticateUniversalResult = {};
-type ResetUniversalIdPasswordWithExpiryResult = {};
+type AuthenticateEmailPasswordResult = {};
+type ResetEmailPasswordResult = {};
 type PlayerStateLogoutResult = {};
+type GetIdentitiesResult = {
+  identities: {
+    Email: string;
+    Universal: string | undefined;
+  };
+};
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -19,15 +25,22 @@ declare module 'braincloud' {
     brainCloudClient: {
       initialize(id: string, secret: string, version: string);
       authentication: {
-        authenticateUniversal(
-          userId: string,
+        authenticateEmailPassword(
+          email: string,
           password: string,
           forceCreate: boolean,
-          callback: (result: Result<AuthenticateUniversalResult>) => void
+          callback: (result: Result<AuthenticateEmailPasswordResult>) => void
         );
-        resetUniversalIdPassword(
-          userId: string,
-          callback: (result: Result<ResetUniversalIdPasswordWithExpiryResult>) => void
+        resetEmailPassword(
+          email: string,
+          callback: (result: Result<ResetEmailPasswordResult>) => void
+        );
+      };
+      identity: {
+        getIdentities(callback: (result: Result<GetIdentitiesResult>) => void);
+        attachNonLoginUniversalId(
+          externalId: string,
+          callback: (result: Result<GetIdentitiesResult>) => void
         );
       };
       playerState: {

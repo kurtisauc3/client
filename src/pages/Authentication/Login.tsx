@@ -1,6 +1,6 @@
+import Form from 'core/components/Form';
+import { AuthContext, ILogin } from 'core/providers/Auth';
 import React, { FC, useContext } from 'react';
-import Form from '../../core/components/Form';
-import { AuthContext, ILogin } from '../../core/providers/Auth';
 
 const Component: FC = () => {
   const { login } = useContext(AuthContext);
@@ -9,11 +9,12 @@ const Component: FC = () => {
     <Form<ILogin>
       titleKey="login"
       fieldData={{
-        username: {
+        email: {
           editorType: 'input',
           initialValue: '',
           props: {
-            required: true
+            required: true,
+            type: 'email'
           }
         },
         password: {

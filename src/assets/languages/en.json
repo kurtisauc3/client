@@ -1,11 +1,15 @@
 {
   "login": "login",
-  "username": "username",
-  "password": "password",
-  "email": "email",
-  "confirmPassword": "confirm password",
   "createAccount": "create account",
   "forgotPassword": "forgot password",
+  "email": "email",
+  "password": "password",
+  "confirmPassword": "confirm password",
+  "emailSent": "email sent",
+  "emailSentMessage": "an email has been sent with instructions to reset your password",
+  "backToLogin": "back to login",
+  "setUsername": "set username",
   "error.40208": "user does not exist",
+  "error.40209": "email not registered",
   "error.40307": "invalid credentials"
 }

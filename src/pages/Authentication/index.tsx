@@ -1,14 +1,16 @@
-import React, { FC, useState } from 'react';
+import cover from 'assets/images/cover.jpeg';
+import logo from 'assets/images/logo.png';
+import Loading from 'core/components/Loading';
+import { AuthContext } from 'core/providers/Auth';
+import api from 'core/services/brainCloudClient';
+import React, { FC, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import cover from '../../assets/images/cover.jpeg';
-import logo from '../../assets/images/logo.png';
-import api from '../../core/services/brainCloudClient';
 import CreateAccount from './CreateAccount';
+import EmailSent from './EmailSent';
 import ForgotPassword from './ForgotPassword';
 import Login from './Login';
-
-type TUnauthenticated = 'login' | 'createAccount' | 'forgotPassword';
+import SetUserName from './SetUsername';
 
 const LOGIN_WIDTH = '400px';
 
@@ -56,9 +58,10 @@ const VersionContainer = styled.div`
 `;
 
 const Component: FC = () => {
-  const [state, setState] = useState<TUnauthenticated>('login');
+  const { state, goToCreateAccount, goToLogin, goToForgotPassword, logout } =
+    useContext(AuthContext);
   const version = api.getAppVersion();
-  const states: TUnauthenticated[] = ['login', 'createAccount', 'forgotPassword'];
+
   const renderForm = () => {
     switch (state) {
       case 'login':
@@ -67,16 +70,45 @@ const Component: FC = () => {
         return <CreateAccount />;
       case 'forgotPassword':
         return <ForgotPassword />;
+      case 'emailSent':
+        return <EmailSent />;
+      case 'setUsername':
+        return <SetUserName />;
+      case 'authenticated':
+        return <Loading />;
     }
   };
-  const renderLinks = () =>
-    states
-      .filter((stateKey) => stateKey !== state)
-      .map((stateKey) => (
-        <LinkContainer key={stateKey} onClick={() => setState(stateKey)}>
-          <FormattedMessage id={stateKey} />
-        </LinkContainer>
-      ));
+  const renderLinks = () => {
+    switch (state) {
+      case 'login':
+        return (
+          <>
+            <LinkContainer onClick={goToCreateAccount}>
+              <FormattedMessage id="createAccount" />
+            </LinkContainer>
+            <LinkContainer onClick={goToForgotPassword}>
+              <FormattedMessage id="forgotPassword" />
+            </LinkContainer>
+          </>
+        );
+      case 'createAccount':
+      case 'forgotPassword':
+      case 'emailSent':
+        return (
+          <LinkContainer onClick={goToLogin}>
+            <FormattedMessage id="backToLogin" />
+          </LinkContainer>
+        );
+      case 'setUsername':
+        return (
+          <LinkContainer onClick={logout}>
+            <FormattedMessage id="logout" />
+          </LinkContainer>
+        );
+      case 'authenticated':
+        return null;
+    }
+  };
 
   return (
     <Container>

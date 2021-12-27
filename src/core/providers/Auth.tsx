@@ -1,66 +1,120 @@
 import React, { createContext, FC, useState } from 'react';
 import api from '../services/brainCloudClient';
 
+export interface ICreateAccount {
+  email: string;
+  password: string;
+}
+
 export interface ILogin {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface IForgotPassword {
+  email: string;
+}
+
+export interface ISetUsername {
   username: string;
 }
 
+type TAuthState =
+  | 'login'
+  | 'createAccount'
+  | 'forgotPassword'
+  | 'emailSent'
+  | 'setUsername'
+  | 'authenticated';
+
 interface IAuthContext {
-  authenticated: boolean;
+  state: TAuthState;
+  goToLogin: () => void;
+  goToCreateAccount: () => void;
+  goToForgotPassword: () => void;
   login: (data: ILogin) => void;
-  createAccount: (data: ILogin) => void;
+  createAccount: (data: ICreateAccount) => void;
   forgotPassword: (data: IForgotPassword) => void;
+  setUsername: (data: ISetUsername) => void;
   logout: () => void;
 }
 
 export const AuthContext = createContext({} as IAuthContext);
 
 const AuthProvider: FC = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [state, setState] = useState<TAuthState>('login');
 
-  const login = ({ username, password }: ILogin) => {
-    api.authentication.authenticateUniversal(username, password, false, (result) => {
+  const onAuth = () => {
+    api.identity.getIdentities((result) => {
       if ('data' in result) {
-        setAuthenticated(true);
+        setState(result.data.identities.Universal ? 'authenticated' : 'setUsername');
       }
     });
   };
 
-  const createAccount = ({ username, password }: ILogin) => {
-    api.authentication.authenticateUniversal(username, password, true, (result) => {
+  const login = ({ email, password }: ILogin) => {
+    api.authentication.authenticateEmailPassword(email, password, false, (result) => {
       if ('data' in result) {
-        setAuthenticated(true);
+        onAuth();
       }
     });
   };
-  const forgotPassword = ({ username }: IForgotPassword) => {
-    console.log(api);
-    api.authentication.resetUniversalIdPassword(username, (result) => {
+
+  const createAccount = ({ email, password }: ICreateAccount) => {
+    api.authentication.authenticateEmailPassword(email, password, true, (result) => {
       if ('data' in result) {
-        // email sent
+        onAuth();
+      }
+    });
+  };
+  const forgotPassword = ({ email }: IForgotPassword) => {
+    api.authentication.resetEmailPassword(email, (result) => {
+      if ('data' in result) {
+        setState('emailSent');
+      }
+    });
+  };
+  const setUsername = ({ username }: ISetUsername) => {
+    api.identity.attachNonLoginUniversalId(username, (result) => {
+      if ('data' in result) {
+        setState('authenticated');
       }
     });
   };
   const logout = () => {
     api.playerState.logout((result) => {
       if ('data' in result) {
-        setAuthenticated(false);
+        setState('login');
       }
     });
+  };
+  const goToLogin = () => {
+    if (state !== 'authenticated') {
+      setState('login');
+    }
+  };
+  const goToCreateAccount = () => {
+    if (state !== 'authenticated') {
+      setState('createAccount');
+    }
+  };
+  const goToForgotPassword = () => {
+    if (state !== 'authenticated') {
+      setState('forgotPassword');
+    }
   };
 
   return (
     <AuthContext.Provider
       value={{
-        authenticated,
+        state,
+        goToLogin,
+        goToCreateAccount,
+        goToForgotPassword,
         login,
         createAccount,
         forgotPassword,
+        setUsername,
         logout
       }}
     >

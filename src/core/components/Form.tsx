@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import loading from '../../assets/images/loading.gif';
 import useErrorCode from '../../core/hooks/useErrorCode';
+import Loading from './Loading';
 
 type TFormData<T> = {
   [key in keyof T]: string;
@@ -100,17 +100,6 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const LoadingContainer = styled.div`
-  display: flex;
-  flex-grow: 1;
-  padding: 100px;
-  img {
-    object-fit: contain;
-    min-width: 100%;
-    max-width: 100%;
-  }
-`;
-
 const ErrorContainer = styled.div`
   color: #ff4026;
 `;
@@ -132,13 +121,7 @@ const Component = <T extends TFormData<T>>(props: TFormProps<T>) => {
   }, [errorCode]);
 
   if (submitting) {
-    return (
-      <Container>
-        <LoadingContainer>
-          <img alt="loading" src={loading} />
-        </LoadingContainer>
-      </Container>
-    );
+    return <Loading />;
   }
 
   return (

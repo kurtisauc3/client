@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 const Component: FC = () => {
-  return <>authenticated</>;
+  return <>idle</>;
 };
 
 export default Component;
