@@ -9,7 +9,7 @@ interface IAppContext {
 
 export const AppContext = createContext({} as IAppContext);
 
-const AppProvider: FC = ({ children }) => {
+const Provider: FC = ({ children }) => {
   const [appState, setAppState] = useState<TAppState>('authentication');
 
   return (
@@ -24,4 +24,4 @@ const AppProvider: FC = ({ children }) => {
   );
 };
 
-export default AppProvider;
+export default Provider;

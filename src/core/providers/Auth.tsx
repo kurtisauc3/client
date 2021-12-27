@@ -42,7 +42,7 @@ interface IAuthContext {
 
 export const AuthContext = createContext({} as IAuthContext);
 
-const AuthProvider: FC = ({ children }) => {
+const Provider: FC = ({ children }) => {
   const { setAppState } = useContext(AppContext);
   const [authState, setAuthState] = useState<TAuthState>('login');
 
@@ -132,4 +132,4 @@ const AuthProvider: FC = ({ children }) => {
   );
 };
 
-export default AuthProvider;
+export default Provider;
