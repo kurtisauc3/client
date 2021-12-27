@@ -1,6 +1,5 @@
 import cover from 'assets/images/cover.jpeg';
 import logo from 'assets/images/logo.png';
-import Loading from 'core/components/Loading';
 import { AuthContext } from 'core/providers/Auth';
 import api from 'core/services/brainCloudClient';
 import React, { FC, useContext } from 'react';
@@ -58,12 +57,12 @@ const VersionContainer = styled.div`
 `;
 
 const Component: FC = () => {
-  const { state, goToCreateAccount, goToLogin, goToForgotPassword, logout } =
+  const { authState, goToCreateAccount, goToLogin, goToForgotPassword, logout } =
     useContext(AuthContext);
   const version = api.getAppVersion();
 
-  const renderForm = () => {
-    switch (state) {
+  const renderForm = (): React.ReactNode => {
+    switch (authState) {
       case 'login':
         return <Login />;
       case 'createAccount':
@@ -75,11 +74,11 @@ const Component: FC = () => {
       case 'setUsername':
         return <SetUserName />;
       case 'authenticated':
-        return <Loading />;
+        return null;
     }
   };
   const renderLinks = () => {
-    switch (state) {
+    switch (authState) {
       case 'login':
         return (
           <>

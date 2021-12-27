@@ -1,18 +1,21 @@
+import AuthProvider from 'core/providers/Auth';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import { IntlProvider } from 'react-intl';
+import App from './App';
 import messages from './assets/languages/en.json';
 import GlobalStyle from './core/components/GlobalStyle';
-import AuthProvider from './core/providers/Auth';
+import AppProvider from './core/providers/App';
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />
     <IntlProvider locale="en" defaultLocale="en" messages={messages as Record<string, string>}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <AppProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </AppProvider>
     </IntlProvider>
   </React.StrictMode>,
   document.getElementById('root')

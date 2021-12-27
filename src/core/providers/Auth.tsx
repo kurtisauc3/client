@@ -1,5 +1,6 @@
-import React, { createContext, FC, useState } from 'react';
+import React, { createContext, FC, useContext, useEffect, useState } from 'react';
 import api from '../services/brainCloudClient';
+import { AppContext } from './App';
 
 export interface ICreateAccount {
   email: string;
@@ -28,7 +29,7 @@ type TAuthState =
   | 'authenticated';
 
 interface IAuthContext {
-  state: TAuthState;
+  authState: TAuthState;
   goToLogin: () => void;
   goToCreateAccount: () => void;
   goToForgotPassword: () => void;
@@ -42,12 +43,25 @@ interface IAuthContext {
 export const AuthContext = createContext({} as IAuthContext);
 
 const AuthProvider: FC = ({ children }) => {
-  const [state, setState] = useState<TAuthState>('login');
+  const { setAppState } = useContext(AppContext);
+  const [authState, setAuthState] = useState<TAuthState>('login');
+
+  useEffect(() => {
+    if (authState === 'authenticated') {
+      setAppState('idle');
+    } else {
+      setAppState('authentication');
+    }
+  }, [authState]);
 
   const onAuth = () => {
     api.identity.getIdentities((result) => {
       if ('data' in result) {
-        setState(result.data.identities.Universal ? 'authenticated' : 'setUsername');
+        if (result.data.identities.Universal) {
+          setAuthState('authenticated');
+        } else {
+          setAuthState('setUsername');
+        }
       }
     });
   };
@@ -70,44 +84,39 @@ const AuthProvider: FC = ({ children }) => {
   const forgotPassword = ({ email }: IForgotPassword) => {
     api.authentication.resetEmailPassword(email, (result) => {
       if ('data' in result) {
-        setState('emailSent');
+        setAuthState('emailSent');
       }
     });
   };
   const setUsername = ({ username }: ISetUsername) => {
     api.identity.attachNonLoginUniversalId(username, (result) => {
       if ('data' in result) {
-        setState('authenticated');
+        setAuthState('authenticated');
       }
     });
   };
+
   const logout = () => {
     api.playerState.logout((result) => {
       if ('data' in result) {
-        setState('login');
+        setAuthState('login');
       }
     });
   };
   const goToLogin = () => {
-    if (state !== 'authenticated') {
-      setState('login');
-    }
+    setAuthState('login');
   };
   const goToCreateAccount = () => {
-    if (state !== 'authenticated') {
-      setState('createAccount');
-    }
+    setAuthState('createAccount');
   };
   const goToForgotPassword = () => {
-    if (state !== 'authenticated') {
-      setState('forgotPassword');
-    }
+    setAuthState('forgotPassword');
   };
 
   return (
     <AuthContext.Provider
       value={{
-        state,
+        authState,
         goToLogin,
         goToCreateAccount,
         goToForgotPassword,
