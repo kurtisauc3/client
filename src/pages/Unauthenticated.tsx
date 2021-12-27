@@ -1,13 +1,10 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext } from 'react';
 import styled from 'styled-components';
-import { FormattedMessage } from 'react-intl';
-import loading from '../assets/images/loading.gif';
-import logo from '../assets/images/logo.png';
 import cover from '../assets/images/cover.jpeg';
-import useErrorCode from '../core/hooks/useErrorCode';
-import api from '../core/services/brainCloudClient';
-import { AuthContext } from '../core/providers/Auth';
+import logo from '../assets/images/logo.png';
 import Form from '../core/components/Form';
+import { AuthContext } from '../core/providers/Auth';
+import api from '../core/services/brainCloudClient';
 
 interface ILogin {
   username: string;
