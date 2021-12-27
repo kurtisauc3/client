@@ -1,7 +1,11 @@
 {
-  "signIn": "sign in",
+  "login": "login",
   "username": "username",
   "password": "password",
+  "email": "email",
+  "confirmPassword": "confirm password",
+  "createAccount": "create account",
+  "forgotPassword": "forgot password",
   "error.40208": "user does not exist",
   "error.40307": "invalid credentials"
 }

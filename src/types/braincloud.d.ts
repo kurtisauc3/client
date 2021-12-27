@@ -10,6 +10,7 @@ type ErrorResult = {
 };
 type Result<T> = SuccessResult<T> | ErrorResult;
 type AuthenticateUniversalResult = {};
+type ResetUniversalIdPasswordWithExpiryResult = {};
 type PlayerStateLogoutResult = {};
 
 declare module 'braincloud' {
@@ -23,6 +24,10 @@ declare module 'braincloud' {
           password: string,
           forceCreate: boolean,
           callback: (result: Result<AuthenticateUniversalResult>) => void
+        );
+        resetUniversalIdPassword(
+          userId: string,
+          callback: (result: Result<ResetUniversalIdPasswordWithExpiryResult>) => void
         );
       };
       playerState: {

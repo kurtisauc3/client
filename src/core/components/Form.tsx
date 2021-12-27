@@ -1,6 +1,6 @@
-import React, { FC, useContext, useEffect, useState, useMemo } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
 import loading from '../../assets/images/loading.gif';
 import useErrorCode from '../../core/hooks/useErrorCode';
 
