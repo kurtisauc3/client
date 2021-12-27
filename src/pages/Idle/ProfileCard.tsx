@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Container = styled.div``;
 
 const Component: FC = () => {
-  return <Container>Body</Container>;
+  return <Container>ProfileCard</Container>;
 };
 
 export default Component;
