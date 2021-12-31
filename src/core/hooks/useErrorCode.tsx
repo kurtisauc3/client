@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from '../services/brainCloudClient';
+import api from '../services/api';
 
 const useErrorCode: () => [number | undefined, () => void] = () => {
   const [errorCode, _setErrorCode] = useState<number>();

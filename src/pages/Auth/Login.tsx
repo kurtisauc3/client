@@ -1,9 +1,17 @@
 import Form from 'core/components/Form';
-import { AuthContext, ILogin } from 'core/providers/Auth';
-import React, { FC, useContext } from 'react';
+import api from 'core/services/api';
+import auth from 'core/services/auth';
+import { useAppDispatch } from 'core/services/store';
+import React, { FC } from 'react';
+
+interface ILogin {
+  email: string;
+  password: string;
+}
 
 const Component: FC = () => {
-  const { login } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
+  const { goTo } = auth.actions;
 
   return (
     <Form<ILogin>
@@ -26,7 +34,13 @@ const Component: FC = () => {
           }
         }
       }}
-      onSubmit={login}
+      onSubmit={({ email, password }) => {
+        api.authentication.authenticateEmailPassword(email, password, false, (result) => {
+          if ('data' in result) {
+            dispatch(goTo('authenticated'));
+          }
+        });
+      }}
     />
   );
 };

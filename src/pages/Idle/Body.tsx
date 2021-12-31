@@ -1,5 +1,5 @@
-import { IdleContext } from 'core/providers/Idle';
-import React, { FC, useContext } from 'react';
+import { useAppSelector } from 'core/services/store';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import Home from './Home';
 import Play from './Play';
@@ -8,10 +8,10 @@ import Profile from './Profile';
 const Container = styled.div``;
 
 const Component: FC = () => {
-  const { idleState } = useContext(IdleContext);
+  const view = useAppSelector((state) => state.idle.view);
 
   const renderBody = (): React.ReactNode => {
-    switch (idleState) {
+    switch (view) {
       case 'play':
         return <Play />;
       case 'home':

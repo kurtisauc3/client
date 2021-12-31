@@ -1,26 +1,16 @@
-import { AppContext } from 'core/providers/App';
-import AuthProvider from 'core/providers/Auth';
-import IdleProvider from 'core/providers/Idle';
-import Authentication from 'pages/Authentication';
+import { useAppSelector } from 'core/services/store';
+import Auth from 'pages/Auth';
 import Idle from 'pages/Idle';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 
 const Component: FC = () => {
-  const { appState } = useContext(AppContext);
+  const view = useAppSelector((state) => state.user.view);
 
-  switch (appState) {
-    case 'authentication':
-      return (
-        <AuthProvider>
-          <Authentication />
-        </AuthProvider>
-      );
+  switch (view) {
+    case 'auth':
+      return <Auth />;
     case 'idle':
-      return (
-        <IdleProvider>
-          <Idle />
-        </IdleProvider>
-      );
+      return <Idle />;
   }
 };
 

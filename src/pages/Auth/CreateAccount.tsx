@@ -1,9 +1,17 @@
 import Form from 'core/components/Form';
-import { AuthContext, ICreateAccount } from 'core/providers/Auth';
-import React, { FC, useContext } from 'react';
+import api from 'core/services/api';
+import auth from 'core/services/auth';
+import { useAppDispatch } from 'core/services/store';
+import React, { FC } from 'react';
+
+interface ICreateAccount {
+  email: string;
+  password: string;
+}
 
 const Component: FC = () => {
-  const { createAccount } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
+  const { goTo } = auth.actions;
 
   return (
     <Form<ICreateAccount>
@@ -26,7 +34,13 @@ const Component: FC = () => {
           }
         }
       }}
-      onSubmit={createAccount}
+      onSubmit={({ email, password }) => {
+        api.authentication.authenticateEmailPassword(email, password, true, (result) => {
+          if ('data' in result) {
+            dispatch(goTo('authenticated'));
+          }
+        });
+      }}
     />
   );
 };

@@ -1,7 +1,10 @@
 import { WHITE } from 'core/components/Colors';
 import Nav from 'core/components/Nav';
-import { IdleContext } from 'core/providers/Idle';
-import React, { FC, useContext } from 'react';
+import api from 'core/services/api';
+import idle from 'core/services/idle';
+import { useAppDispatch, useAppSelector } from 'core/services/store';
+import user from 'core/services/user';
+import React, { FC } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
@@ -22,20 +25,35 @@ const Container = styled(Nav)`
 `;
 
 const Component: FC = () => {
-  const { idleState, setIdleState } = useContext(IdleContext);
-  const states: Array<typeof idleState> = ['play', 'home', 'profile'];
+  const view = useAppSelector((state) => state.idle.view);
+  const dispatch = useAppDispatch();
+  const { goTo } = idle.actions;
+  const { goTo: goToUserPage } = user.actions;
+  const idleViews: Array<typeof view> = ['play', 'home', 'profile'];
   return (
     <Container>
-      {states.map((state) => (
+      {idleViews.map((idleView) => (
         <button
-          key={state}
+          key={idleView}
           type="button"
-          onClick={() => setIdleState(state)}
-          className={state === idleState ? 'active' : ''}
+          onClick={() => dispatch(goTo(idleView))}
+          className={idleView === view ? 'active' : ''}
         >
-          <FormattedMessage id={state}></FormattedMessage>
+          <FormattedMessage id={idleView}></FormattedMessage>
         </button>
       ))}
+      <button
+        type="button"
+        onClick={() => {
+          api.playerState.logout((result) => {
+            if ('data' in result) {
+              dispatch(goToUserPage('auth'));
+            }
+          });
+        }}
+      >
+        <FormattedMessage id="logout"></FormattedMessage>
+      </button>
     </Container>
   );
 };

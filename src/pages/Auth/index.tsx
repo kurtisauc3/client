@@ -1,15 +1,17 @@
 import cover from 'assets/images/cover.jpeg';
 import logo from 'assets/images/logo.png';
-import { AuthContext } from 'core/providers/Auth';
-import api from 'core/services/brainCloudClient';
-import React, { FC, useContext } from 'react';
+import api from 'core/services/api';
+import auth from 'core/services/auth';
+import { useAppDispatch, useAppSelector } from 'core/services/store';
+import React, { FC, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
+import Authenticated from './Authenticated';
 import CreateAccount from './CreateAccount';
+import CreateUsername from './CreateUsername';
 import EmailSent from './EmailSent';
 import ForgotPassword from './ForgotPassword';
 import Login from './Login';
-import SetUserName from './SetUsername';
 
 const LOGIN_WIDTH = '400px';
 
@@ -57,12 +59,19 @@ const VersionContainer = styled.div`
 `;
 
 const Component: FC = () => {
-  const { authState, goToCreateAccount, goToLogin, goToForgotPassword, logout } =
-    useContext(AuthContext);
+  const view = useAppSelector((state) => state.auth.view);
+  const dispatch = useAppDispatch();
+  const { goTo, reset } = auth.actions;
   const version = api.getAppVersion();
 
+  useEffect(() => {
+    return () => {
+      dispatch(reset);
+    };
+  }, []);
+
   const renderForm = (): React.ReactNode => {
-    switch (authState) {
+    switch (view) {
       case 'login':
         return <Login />;
       case 'createAccount':
@@ -71,21 +80,21 @@ const Component: FC = () => {
         return <ForgotPassword />;
       case 'emailSent':
         return <EmailSent />;
-      case 'setUsername':
-        return <SetUserName />;
+      case 'createUsername':
+        return <CreateUsername />;
       case 'authenticated':
-        return null;
+        return <Authenticated />;
     }
   };
   const renderLinks = () => {
-    switch (authState) {
+    switch (view) {
       case 'login':
         return (
           <>
-            <LinkContainer onClick={goToCreateAccount}>
+            <LinkContainer onClick={() => dispatch(goTo('createAccount'))}>
               <FormattedMessage id="createAccount" />
             </LinkContainer>
-            <LinkContainer onClick={goToForgotPassword}>
+            <LinkContainer onClick={() => dispatch(goTo('forgotPassword'))}>
               <FormattedMessage id="forgotPassword" />
             </LinkContainer>
           </>
@@ -94,13 +103,21 @@ const Component: FC = () => {
       case 'forgotPassword':
       case 'emailSent':
         return (
-          <LinkContainer onClick={goToLogin}>
+          <LinkContainer onClick={() => dispatch(goTo('login'))}>
             <FormattedMessage id="backToLogin" />
           </LinkContainer>
         );
-      case 'setUsername':
+      case 'createUsername':
         return (
-          <LinkContainer onClick={logout}>
+          <LinkContainer
+            onClick={() => {
+              api.playerState.logout((result) => {
+                if ('data' in result) {
+                  dispatch(goTo('login'));
+                }
+              });
+            }}
+          >
             <FormattedMessage id="logout" />
           </LinkContainer>
         );
