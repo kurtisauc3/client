@@ -1,4 +1,6 @@
 import { AppContext } from 'core/providers/App';
+import AuthProvider from 'core/providers/Auth';
+import IdleProvider from 'core/providers/Idle';
 import Authentication from 'pages/Authentication';
 import Idle from 'pages/Idle';
 import { FC, useContext } from 'react';
@@ -8,9 +10,17 @@ const Component: FC = () => {
 
   switch (appState) {
     case 'authentication':
-      return <Authentication />;
+      return (
+        <AuthProvider>
+          <Authentication />
+        </AuthProvider>
+      );
     case 'idle':
-      return <Idle />;
+      return (
+        <IdleProvider>
+          <Idle />
+        </IdleProvider>
+      );
   }
 };
 

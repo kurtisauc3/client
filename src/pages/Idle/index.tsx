@@ -1,3 +1,4 @@
+import { BLACK, GREY } from 'core/components/Colors';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import Body from './Body';
@@ -11,10 +12,9 @@ const Container = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  div {
-    :first-child {
-      height: ${HEADER_HEIGHT};
-    }
+  background-color: ${BLACK};
+  * {
+    color: ${GREY};
   }
 `;
 const BodyContainer = styled.div`

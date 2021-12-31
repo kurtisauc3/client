@@ -20,8 +20,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'BebasNeue', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: #353839;
+    font-family: 'BebasNeue';
   }
   html, body, #root {
     width: 100vw;
@@ -30,6 +29,12 @@ const GlobalStyle = createGlobalStyle`
   }
   #root {
     display: flex;
+  }
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
   }
 `;
 
