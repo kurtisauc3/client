@@ -5,7 +5,9 @@ import Home from './Home';
 import Play from './Play';
 import Profile from './Profile';
 
-const Container = styled.div``;
+const Container = styled.div`
+  flex-grow: 1;
+`;
 
 const Component: FC = () => {
   const view = useAppSelector((state) => state.idle.view);

@@ -1,4 +1,5 @@
-import { WHITE } from 'core/components/Colors';
+import ActionButton from 'core/components/ActionButton';
+import { DARK_PURPLE, WHITE } from 'core/components/Colors';
 import Nav from 'core/components/Nav';
 import api from 'core/services/api';
 import auth from 'core/services/auth';
@@ -13,14 +14,15 @@ const Container = styled(Nav)`
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: ${DARK_PURPLE + 'EE'};
   button {
     padding: 0 24px;
     height: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    &.active,
     &:hover {
-      color: ${WHITE};
-    }
-    &.active {
-      text-decoration: underline;
+      background-image: linear-gradient(to top, ${WHITE + '33'}, ${WHITE + '00'});
     }
   }
 `;
@@ -31,9 +33,15 @@ const Component: FC = () => {
   const { goTo } = idle.actions;
   const { goTo: goToAuthPage } = auth.actions;
   const { goTo: goToUserPage } = user.actions;
-  const idleViews: Array<typeof view> = ['play', 'home', 'profile'];
+  const idleViews: Array<typeof view> = ['home', 'profile'];
   return (
     <Container>
+      <ActionButton
+        className={view === 'play' ? 'active' : ''}
+        onClick={() => dispatch(goTo('play'))}
+      >
+        <FormattedMessage id="play"></FormattedMessage>
+      </ActionButton>
       {idleViews.map((idleView) => (
         <button
           key={idleView}
