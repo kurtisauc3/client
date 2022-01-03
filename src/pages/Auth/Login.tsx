@@ -19,7 +19,7 @@ const Component: FC = () => {
       fieldData={{
         email: {
           editorType: 'input',
-          initialValue: '',
+          initialValue: 'test3@gmail.com',
           props: {
             required: true,
             type: 'email'
@@ -27,7 +27,7 @@ const Component: FC = () => {
         },
         password: {
           editorType: 'input',
-          initialValue: '',
+          initialValue: 'test',
           props: {
             type: 'password',
             required: true

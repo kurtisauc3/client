@@ -35,7 +35,6 @@ const BackgroundContainer = styled.img`
   transform: translate(-50%, -50%);
   min-width: 100%;
   min-height: 100%;
-  filter: blur(4px);
   z-index: -1;
 `;
 

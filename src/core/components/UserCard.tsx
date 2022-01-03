@@ -1,9 +1,13 @@
-import DefaultPicture from 'assets/images/DefaultPicture.png';
 import { BLACK, DARK_PURPLE, TAN, WHITE } from 'core/components/Colors';
 import Nav from 'core/components/Nav';
-import api from 'core/services/api';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
+
+interface IUserCardProps {
+  level?: number;
+  pic?: string;
+  name: string;
+}
 
 const Container = styled(Nav)`
   display: flex;
@@ -54,32 +58,15 @@ const UsernameContainer = styled.div`
   color: ${WHITE};
 `;
 
-const StatusContainer = styled.div``;
-
-const Component: FC = () => {
-  const [profile, setProfile] = useState<RegisterListenersForProfilesResult>();
-  useEffect(() => {
-    let unmounting = false;
-    api.presence.registerListenersForProfiles([api.getProfileId()], true, (result) => {
-      if ('data' in result) {
-        console.log(result.data);
-      }
-    });
-    return () => {
-      unmounting = true;
-      api.presence.stopListening();
-    };
-  }, []);
-
+const Component: FC<IUserCardProps> = ({ level, pic, name }) => {
   return (
     <Container>
       <PictureContainer>
-        <LevelContainer></LevelContainer>
-        <img alt="logo" src={DefaultPicture} />
+        <LevelContainer>{level}</LevelContainer>
+        <img alt="logo" src={pic} />
       </PictureContainer>
       <UserContainer>
-        <UsernameContainer></UsernameContainer>
-        <StatusContainer></StatusContainer>
+        <UsernameContainer>{name}</UsernameContainer>
       </UserContainer>
     </Container>
   );

@@ -7,18 +7,23 @@ import React, { FC, useEffect } from 'react';
 
 const Component: FC = () => {
   const dispatch = useAppDispatch();
-  const { goTo: goToAuthPage, reset } = auth.actions;
+  const { goTo: goToAuthPage } = auth.actions;
   const { goTo: goToUserPage } = user.actions;
 
   useEffect(() => {
     api.identity.getIdentities((result) => {
       if ('data' in result) {
         if (result.data.identities.Universal) {
-          dispatch(goToUserPage('idle'));
+          api.rttService.enableRTT((result) => {
+            if ('data' in result) {
+              dispatch(goToUserPage('idle'));
+            }
+          });
         } else {
           dispatch(goToAuthPage('createUsername'));
         }
       } else {
+        api.rttService.disableRTT();
         dispatch(goToAuthPage('login'));
       }
     });

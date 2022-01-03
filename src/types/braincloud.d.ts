@@ -18,6 +18,21 @@ type GetIdentitiesResult = {
     Universal: string | undefined;
   };
 };
+type EnableRTTResult = {};
+type StopListeningResult = {};
+type RegisterListenersForProfilesResult = {
+  presence: Array<{
+    user: {
+      id: string;
+      name: string;
+      pic: string | null;
+      cxs: Array<string>;
+    };
+    online: boolean;
+    summaryFriendData: {};
+    activity: {};
+  }>;
+};
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -46,7 +61,20 @@ declare module 'braincloud' {
       playerState: {
         logout(callback: (result: Result<PlayerStateLogoutResult>) => void);
       };
+      presence: {
+        stopListening(callback?: (result: Result<StopListeningResult>) => void);
+        registerListenersForProfiles(
+          profileIds: Array<string>,
+          bidirectional: boolean,
+          callback: (result: Result<RegisterListenersForProfilesResult>) => void
+        );
+      };
+      rttService: {
+        enableRTT(callback: (result: Result<EnableRTTResult>) => void);
+        disableRTT();
+      };
       getAppVersion(): string;
+      getProfileId(): string;
       setErrorCallback(callback: (error: ErrorResult) => void);
     };
   }
