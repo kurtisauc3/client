@@ -10,7 +10,7 @@ const initialState: IIdleState = {
   view: 'home'
 };
 
-export const slice = createSlice({
+const slice = createSlice({
   name: 'idle',
   initialState,
   reducers: {

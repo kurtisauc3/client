@@ -7,7 +7,7 @@ import React, { FC, useEffect } from 'react';
 
 const Component: FC = () => {
   const dispatch = useAppDispatch();
-  const { goTo: goToAuthPage } = auth.actions;
+  const { goTo: goToAuthPage, reset } = auth.actions;
   const { goTo: goToUserPage } = user.actions;
 
   useEffect(() => {
@@ -18,6 +18,8 @@ const Component: FC = () => {
         } else {
           dispatch(goToAuthPage('createUsername'));
         }
+      } else {
+        dispatch(goToAuthPage('login'));
       }
     });
   }, []);

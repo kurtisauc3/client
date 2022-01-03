@@ -16,7 +16,7 @@ const initialState: IAuthState = {
   view: 'login'
 };
 
-export const slice = createSlice({
+const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {

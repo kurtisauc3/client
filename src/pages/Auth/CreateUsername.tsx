@@ -1,7 +1,7 @@
 import Form from 'core/components/Form';
 import api from 'core/services/api';
+import auth from 'core/services/auth';
 import { useAppDispatch } from 'core/services/store';
-import user from 'core/services/user';
 import React, { FC } from 'react';
 
 interface ICreateUsername {
@@ -10,7 +10,7 @@ interface ICreateUsername {
 
 const Component: FC = () => {
   const dispatch = useAppDispatch();
-  const { goTo } = user.actions;
+  const { goTo } = auth.actions;
 
   return (
     <Form<ICreateUsername>
@@ -27,7 +27,7 @@ const Component: FC = () => {
       onSubmit={({ username }) => {
         api.identity.attachNonLoginUniversalId(username, (result) => {
           if ('data' in result) {
-            dispatch(goTo('idle'));
+            dispatch(goTo('authenticated'));
           }
         });
       }}

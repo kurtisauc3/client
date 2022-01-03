@@ -3,7 +3,7 @@ import logo from 'assets/images/logo.png';
 import api from 'core/services/api';
 import auth from 'core/services/auth';
 import { useAppDispatch, useAppSelector } from 'core/services/store';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import Authenticated from './Authenticated';
@@ -61,14 +61,8 @@ const VersionContainer = styled.div`
 const Component: FC = () => {
   const view = useAppSelector((state) => state.auth.view);
   const dispatch = useAppDispatch();
-  const { goTo, reset } = auth.actions;
+  const { goTo } = auth.actions;
   const version = api.getAppVersion();
-
-  useEffect(() => {
-    return () => {
-      dispatch(reset);
-    };
-  }, []);
 
   const renderForm = (): React.ReactNode => {
     switch (view) {

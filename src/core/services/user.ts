@@ -10,7 +10,7 @@ const initialState: TUserState = {
   view: 'auth'
 };
 
-export const slice = createSlice({
+const slice = createSlice({
   name: 'user',
   initialState,
   reducers: {

@@ -1,6 +1,7 @@
 import { WHITE } from 'core/components/Colors';
 import Nav from 'core/components/Nav';
 import api from 'core/services/api';
+import auth from 'core/services/auth';
 import idle from 'core/services/idle';
 import { useAppDispatch, useAppSelector } from 'core/services/store';
 import user from 'core/services/user';
@@ -28,6 +29,7 @@ const Component: FC = () => {
   const view = useAppSelector((state) => state.idle.view);
   const dispatch = useAppDispatch();
   const { goTo } = idle.actions;
+  const { goTo: goToAuthPage } = auth.actions;
   const { goTo: goToUserPage } = user.actions;
   const idleViews: Array<typeof view> = ['play', 'home', 'profile'];
   return (

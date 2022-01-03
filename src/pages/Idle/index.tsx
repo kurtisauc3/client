@@ -1,7 +1,5 @@
 import { BLACK, GREY } from 'core/components/Colors';
-import idle from 'core/services/idle';
-import { useAppDispatch } from 'core/services/store';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import Body from './Body';
 import Header from './Header';
@@ -26,15 +24,6 @@ const SocialContainer = styled.div`
 `;
 
 const Component: FC = () => {
-  const dispatch = useAppDispatch();
-  const { reset } = idle.actions;
-
-  useEffect(() => {
-    return () => {
-      dispatch(reset);
-    };
-  }, []);
-
   return (
     <Container>
       <BodyContainer>
