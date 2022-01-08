@@ -1,13 +1,13 @@
-import { BLACK, DARK_PURPLE, TAN, WHITE } from 'core/components/Colors';
+import DefaultPicture from 'assets/images/DefaultPicture.png';
+import { BLACK, DARK_PURPLE, GREEN, TAN, WHITE } from 'core/components/Colors';
 import Nav from 'core/components/Nav';
 import React, { FC } from 'react';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
-interface IUserCardProps {
-  level?: number;
-  pic?: string;
-  name: string;
-}
+type IUserCardProps = React.HTMLAttributes<HTMLDivElement> & {
+  userPresence?: UserPresence;
+};
 
 const Container = styled(Nav)`
   display: flex;
@@ -20,7 +20,7 @@ const Container = styled(Nav)`
 `;
 
 const PictureContainer = styled.div`
-  height: calc(100% - 10px);
+  height: 100%;
   position: relative;
   img {
     border: 2px solid ${TAN};
@@ -36,37 +36,48 @@ const PictureContainer = styled.div`
     }
   }
 `;
-const LevelContainer = styled.div`
-  z-index: 1;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 10px);
-  border: 2px solid ${TAN};
-  background-color: ${BLACK};
-  padding: 0 10px;
-`;
 
 const UserContainer = styled.div`
   flex-grow: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   padding: 15px;
 `;
 
 const UsernameContainer = styled.div`
-  color: ${WHITE};
+  color: ${WHITE}!important;
 `;
 
-const Component: FC<IUserCardProps> = ({ level, pic, name }) => {
+const UserStatusContainer = styled.div`
+  font-size: 14px;
+  &.online {
+    color: ${GREEN}!important;
+  }
+  &.offline {
+    color: ${TAN}!important;
+  }
+`;
+
+const Component: FC<IUserCardProps> = (props) => {
+  const { userPresence, ...rest } = props;
+
+  if (!userPresence) {
+    return null;
+  }
+  const { online } = userPresence;
+  const { name, pic } = userPresence.user;
+  const imgSrc = pic || DefaultPicture;
+  const userStatusClassName = online ? 'online' : 'offline';
   return (
-    <Container>
+    <Container {...rest}>
       <PictureContainer>
-        <LevelContainer>{level}</LevelContainer>
-        <img alt="logo" src={pic} />
+        <img alt="logo" src={imgSrc} />
       </PictureContainer>
       <UserContainer>
         <UsernameContainer>{name}</UsernameContainer>
+        <UserStatusContainer className={userStatusClassName}>
+          <FormattedMessage id={userStatusClassName} />
+        </UserStatusContainer>
       </UserContainer>
     </Container>
   );

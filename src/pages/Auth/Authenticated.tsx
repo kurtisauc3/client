@@ -27,7 +27,7 @@ const Component: FC = () => {
         dispatch(goToAuthPage('login'));
       }
     });
-  }, []);
+  });
 
   return <Loading />;
 };

@@ -20,18 +20,19 @@ type GetIdentitiesResult = {
 };
 type EnableRTTResult = {};
 type StopListeningResult = {};
+type UserPresence = {
+  user: {
+    id: string;
+    name: string;
+    pic: string | null;
+    cxs: Array<string>;
+  };
+  online: boolean;
+  summaryFriendData: {};
+  activity: {};
+};
 type RegisterListenersForProfilesResult = {
-  presence: Array<{
-    user: {
-      id: string;
-      name: string;
-      pic: string | null;
-      cxs: Array<string>;
-    };
-    online: boolean;
-    summaryFriendData: {};
-    activity: {};
-  }>;
+  presence: Array<UserPresence>;
 };
 
 declare module 'braincloud' {

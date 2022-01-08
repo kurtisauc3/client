@@ -10,6 +10,8 @@
   "backToLogin": "back to login",
   "createUsername": "create username",
   "username": "username",
+  "online": "online",
+  "offline": "offline",
   "play": "play",
   "home": "home",
   "profile": "profile",
