@@ -69,6 +69,11 @@ declare module 'braincloud' {
           bidirectional: boolean,
           callback: (result: Result<RegisterListenersForProfilesResult>) => void
         );
+        registerListenersForFriends(
+          platform: 'all' | 'brainCloud' | 'facebook',
+          bidirectional: boolean,
+          callback: (result: Result<RegisterListenersForProfilesResult>) => void
+        );
       };
       rttService: {
         enableRTT(callback: (result: Result<EnableRTTResult>) => void);

@@ -1,6 +1,5 @@
 import DefaultPicture from 'assets/images/DefaultPicture.png';
-import { BLACK, DARK_PURPLE, GREEN, TAN, WHITE } from 'core/components/Colors';
-import Nav from 'core/components/Nav';
+import { BLACK, GREEN, TAN, WHITE } from 'core/components/Colors';
 import React, { FC } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
@@ -9,11 +8,11 @@ type IUserCardProps = React.HTMLAttributes<HTMLDivElement> & {
   userPresence?: UserPresence;
 };
 
-const Container = styled(Nav)`
+const Container = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: ${DARK_PURPLE + 'CC'};
-  padding: 5px;
+  padding: 0 5px;
+  height: 100%;
   * {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -27,13 +26,9 @@ const PictureContainer = styled.div`
     border-radius: 50%;
     background-color: ${BLACK};
     object-fit: contain;
-    min-height: 100%;
-    max-height: 100%;
-    opacity: 0.8;
-    cursor: pointer;
-    :hover {
-      opacity: 1;
-    }
+    min-height: 80%;
+    max-height: 80%;
+    margin: 10%;
   }
 `;
 
@@ -41,7 +36,8 @@ const UserContainer = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 0 15px;
+  justify-content: center;
 `;
 
 const UsernameContainer = styled.div`
@@ -71,7 +67,7 @@ const Component: FC<IUserCardProps> = (props) => {
   return (
     <Container {...rest}>
       <PictureContainer>
-        <img alt="logo" src={imgSrc} />
+        <img alt="pic" src={imgSrc} />
       </PictureContainer>
       <UserContainer>
         <UsernameContainer>{name}</UsernameContainer>

@@ -1,5 +1,6 @@
 import ActionButton from 'core/components/ActionButton';
-import { DARK_PURPLE, WHITE } from 'core/components/Colors';
+import { DARK_PURPLE } from 'core/components/Colors';
+import HighlightButton from 'core/components/HighlightButton';
 import Nav from 'core/components/Nav';
 import api from 'core/services/api';
 import auth from 'core/services/auth';
@@ -20,10 +21,6 @@ const Container = styled(Nav)`
     height: 100%;
     font-size: 20px;
     font-weight: bold;
-    &.active,
-    &:hover {
-      background-image: linear-gradient(to top, ${WHITE + '33'}, ${WHITE + '00'});
-    }
   }
 `;
 
@@ -43,16 +40,16 @@ const Component: FC = () => {
         <FormattedMessage id="play"></FormattedMessage>
       </ActionButton>
       {idleViews.map((idleView) => (
-        <button
+        <HighlightButton
           key={idleView}
           type="button"
           onClick={() => dispatch(goTo(idleView))}
           className={idleView === view ? 'active' : ''}
         >
           <FormattedMessage id={idleView}></FormattedMessage>
-        </button>
+        </HighlightButton>
       ))}
-      <button
+      <HighlightButton
         type="button"
         onClick={() => {
           api.playerState.logout((result) => {
@@ -63,7 +60,7 @@ const Component: FC = () => {
         }}
       >
         <FormattedMessage id="logout"></FormattedMessage>
-      </button>
+      </HighlightButton>
     </Container>
   );
 };

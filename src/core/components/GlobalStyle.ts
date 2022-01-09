@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: 'BebasNeue';
+    user-select: none;
   }
   html, body, #root {
     width: 100vw;

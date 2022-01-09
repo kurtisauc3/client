@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
+import useMountedState from './useMountedState';
 
 const useErrorCode: () => [number | undefined, () => void] = () => {
   const [errorCode, _setErrorCode] = useState<number>();
+  const isMounted = useMountedState();
   useEffect(() => {
-    let unmounted = false;
     api.setErrorCallback(({ reason_code }) => {
-      if (!unmounted) {
+      if (isMounted()) {
         _setErrorCode(reason_code);
       }
     });
-    return () => {
-      unmounted = true;
-    };
-  }, []);
+  }, [isMounted]);
   const clearError = () => _setErrorCode(undefined);
   return [errorCode, clearError];
 };
