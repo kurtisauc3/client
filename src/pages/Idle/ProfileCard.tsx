@@ -1,16 +1,16 @@
-import Nav from 'core/components/Nav';
+import Loading from 'core/components/Loading';
 import UserCard from 'core/components/UserCard';
 import useMountedState from 'core/hooks/useMountedState';
 import api from 'core/services/api';
 import React, { FC, useEffect, useState } from 'react';
 
 const Component: FC = () => {
-  const [profile, setProfile] = useState<UserPresence>();
+  const [userPresence, setUserPresence] = useState<UserPresence>();
   const isMounted = useMountedState();
   useEffect(() => {
     api.presence.registerListenersForProfiles([api.getProfileId()], true, (result) => {
       if ('data' in result && isMounted()) {
-        setProfile(result.data.presence[0]);
+        setUserPresence(result.data.presence[0]);
       }
     });
     return () => {
@@ -18,11 +18,11 @@ const Component: FC = () => {
     };
   }, [isMounted]);
 
-  return (
-    <Nav>
-      <UserCard userPresence={profile} />
-    </Nav>
-  );
+  if (!userPresence) {
+    return <Loading />;
+  }
+
+  return <UserCard userPresence={userPresence} />;
 };
 
 export default Component;

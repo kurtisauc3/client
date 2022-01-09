@@ -1,7 +1,5 @@
 import ActionButton from 'core/components/ActionButton';
-import { DARK_PURPLE } from 'core/components/Colors';
 import HighlightButton from 'core/components/HighlightButton';
-import Nav from 'core/components/Nav';
 import api from 'core/services/api';
 import auth from 'core/services/auth';
 import idle from 'core/services/idle';
@@ -11,11 +9,11 @@ import React, { FC } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
-const Container = styled(Nav)`
+const Container = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${DARK_PURPLE + 'EE'};
   button {
     padding: 0 24px;
     height: 100%;

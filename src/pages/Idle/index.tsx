@@ -1,5 +1,6 @@
 import Background from 'assets/images/background.jpeg';
 import { TAN } from 'core/components/Colors';
+import Nav from 'core/components/Nav';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import Body from './Body';
@@ -42,11 +43,15 @@ const Component: FC = () => {
   return (
     <Container>
       <BodyContainer>
-        <Header />
+        <Nav>
+          <Header />
+        </Nav>
         <Body />
       </BodyContainer>
       <SocialContainer>
-        <ProfileCard />
+        <Nav>
+          <ProfileCard />
+        </Nav>
         <Social />
       </SocialContainer>
       <BackgroundContainer src={Background} />

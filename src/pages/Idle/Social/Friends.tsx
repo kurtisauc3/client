@@ -1,4 +1,5 @@
 import HighlightButton from 'core/components/HighlightButton';
+import Loading from 'core/components/Loading';
 import UserCard from 'core/components/UserCard';
 import useMountedState from 'core/hooks/useMountedState';
 import api from 'core/services/api';
@@ -14,7 +15,7 @@ const FriendCardContainer = styled(HighlightButton)`
 `;
 
 const Component: FC = () => {
-  const [friends, setFriends] = useState<UserPresence[]>([]);
+  const [friends, setFriends] = useState<UserPresence[]>();
   const isMounted = useMountedState();
   useEffect(() => {
     api.presence.registerListenersForFriends('all', false, (result) => {
@@ -26,6 +27,10 @@ const Component: FC = () => {
       api.presence.stopListening();
     };
   }, [isMounted]);
+
+  if (!friends) {
+    return <Loading />;
+  }
   return (
     <Container>
       {friends.map((userPresence, index) => (

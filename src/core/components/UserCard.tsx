@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
 type IUserCardProps = React.HTMLAttributes<HTMLDivElement> & {
-  userPresence?: UserPresence;
+  userPresence: UserPresence;
 };
 
 const Container = styled.div`
@@ -57,9 +57,6 @@ const UserStatusContainer = styled.div`
 const Component: FC<IUserCardProps> = (props) => {
   const { userPresence, ...rest } = props;
 
-  if (!userPresence) {
-    return null;
-  }
   const { online } = userPresence;
   const { name, pic } = userPresence.user;
   const imgSrc = pic || DefaultPicture;
