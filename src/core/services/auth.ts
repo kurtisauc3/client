@@ -22,9 +22,6 @@ const slice = createSlice({
   reducers: {
     goTo: (state, action: PayloadAction<TAuthView>) => {
       state.view = action.payload;
-    },
-    reset: (state) => {
-      state = initialState;
     }
   }
 });

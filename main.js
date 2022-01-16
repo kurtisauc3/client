@@ -25,6 +25,13 @@ function createAppWindow() {
   win.on('closed', () => {
     win = null;
   });
+  const filter = { urls: [appData.api] };
+  win.webContents.session.webRequest.onSendHeaders(filter, () => {
+    win.webContents.send('requestPending', true);
+  });
+  win.webContents.session.webRequest.onCompleted(filter, () => {
+    win.webContents.send('requestPending', false);
+  });
 }
 
 app.on('ready', createAppWindow);

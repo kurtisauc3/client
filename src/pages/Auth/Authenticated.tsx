@@ -1,9 +1,8 @@
-import Loading from 'core/components/Loading';
 import api from 'core/services/api';
 import auth from 'core/services/auth';
 import { useAppDispatch } from 'core/services/store';
 import user from 'core/services/user';
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 const Component: FC = () => {
   const dispatch = useAppDispatch();
@@ -14,22 +13,15 @@ const Component: FC = () => {
     api.identity.getIdentities((result) => {
       if ('data' in result) {
         if (result.data.identities.Universal) {
-          api.rttService.enableRTT((result) => {
-            if ('data' in result) {
-              dispatch(goToUserPage('idle'));
-            }
-          });
+          dispatch(goToUserPage('idle'));
         } else {
           dispatch(goToAuthPage('createUsername'));
         }
-      } else {
-        api.rttService.disableRTT();
-        dispatch(goToAuthPage('login'));
       }
     });
   });
 
-  return <Loading />;
+  return null;
 };
 
 export default Component;

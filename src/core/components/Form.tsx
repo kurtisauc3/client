@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import useErrorCode from '../../core/hooks/useErrorCode';
-import Loading from './Loading';
 
 type TFormData<T> = {
   [key in keyof T]: string;
@@ -60,16 +58,10 @@ const InputContainer = styled.div`
     color: rgba(0, 0, 0, 0.5);
   }
   input {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: bold;
     font-size: 18px;
-    background: none;
     width: 100%;
-    border: none;
     padding: 5px 0;
-    &:focus {
-      outline: none;
-    }
   }
 `;
 const ButtonContainer = styled.div`
@@ -100,10 +92,6 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const ErrorContainer = styled.div`
-  color: #ff4026;
-`;
-
 const Component = <T extends TFormData<T>>(props: TFormProps<T>) => {
   const { titleKey, onSubmit, fieldData, ...rest } = props;
   const keys = Object.keys(fieldData) as Array<keyof T>;
@@ -112,17 +100,6 @@ const Component = <T extends TFormData<T>>(props: TFormProps<T>) => {
     {} as TFormData<T>
   );
   const [formData, setFormData] = useState(initialValues);
-  const [isValid, setIsValid] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [errorCode, clearErrorCode] = useErrorCode();
-
-  useEffect(() => {
-    setSubmitting(false);
-  }, [errorCode]);
-
-  if (submitting) {
-    return <Loading />;
-  }
 
   return (
     <Container>
@@ -131,18 +108,12 @@ const Component = <T extends TFormData<T>>(props: TFormProps<T>) => {
         onSubmit={(e) => {
           e.preventDefault();
           // handle isValid
-          setSubmitting(true);
           onSubmit(formData);
         }}
       >
         <TitleContainer>
           <FormattedMessage id={titleKey} />
         </TitleContainer>
-        {errorCode && (
-          <ErrorContainer>
-            <FormattedMessage id={`error.${errorCode}`} />
-          </ErrorContainer>
-        )}
         {keys.map((key) => {
           switch (fieldData[key].editorType) {
             case 'input':
@@ -155,7 +126,6 @@ const Component = <T extends TFormData<T>>(props: TFormProps<T>) => {
                     {...fieldData[key].props}
                     name={String(key)}
                     onChange={({ target: { name, value } }) => {
-                      clearErrorCode();
                       setFormData((data) => ({ ...data, [name]: value }));
                     }}
                     id={String(key)}

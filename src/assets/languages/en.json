@@ -14,12 +14,16 @@
   "home": "home",
   "profile": "profile",
   "logout": "logout",
+  "error": "error",
   "error.40207": "user already taken",
   "error.40208": "user does not exist",
   "error.40209": "email not registered",
+  "error.40304": "user not logged in",
   "error.40307": "invalid credentials",
   "online": "online",
   "offline": "offline",
   "friendRequests": "friend requests",
-  "social": "social"
+  "social": "social",
+  "addFriends": "add friends",
+  "addFriend": "add friend"
 }

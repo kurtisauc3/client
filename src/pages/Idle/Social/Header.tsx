@@ -1,4 +1,6 @@
 import { WHITE } from 'core/components/Colors';
+import idle from 'core/services/idle';
+import { useAppDispatch } from 'core/services/store';
 import React, { FC } from 'react';
 import { FaUserPlus } from 'react-icons/fa';
 import { FormattedMessage } from 'react-intl';
@@ -26,13 +28,19 @@ const ButtonContainer = styled.div`
 `;
 
 const Component: FC = () => {
+  const dispatch = useAppDispatch();
+  const { showModal } = idle.actions;
   return (
     <Container>
       <TitleContainer>
         <FormattedMessage id="social" />
       </TitleContainer>
       <ButtonContainer>
-        <FaUserPlus />
+        <FaUserPlus
+          onClick={() => {
+            dispatch(showModal('addFriends'));
+          }}
+        />
       </ButtonContainer>
     </Container>
   );

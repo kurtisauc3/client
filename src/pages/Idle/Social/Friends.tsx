@@ -1,5 +1,4 @@
 import HighlightButton from 'core/components/HighlightButton';
-import Loading from 'core/components/Loading';
 import UserCard from 'core/components/UserCard';
 import useMountedState from 'core/hooks/useMountedState';
 import api from 'core/services/api';
@@ -29,7 +28,7 @@ const Component: FC = () => {
   }, [isMounted]);
 
   if (!friends) {
-    return <Loading />;
+    return null;
   }
   return (
     <Container>

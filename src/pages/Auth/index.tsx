@@ -1,5 +1,6 @@
 import cover from 'assets/images/cover.jpeg';
 import logo from 'assets/images/logo.png';
+import { WHITE } from 'core/components/Colors';
 import api from 'core/services/api';
 import auth from 'core/services/auth';
 import { useAppDispatch, useAppSelector } from 'core/services/store';
@@ -18,6 +19,7 @@ const LOGIN_WIDTH = '400px';
 const Container = styled.div`
   flex-grow: 1;
   display: flex;
+  background-color: ${WHITE};
 `;
 const LoginContainer = styled.div`
   position: relative;

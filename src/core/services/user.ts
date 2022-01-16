@@ -16,9 +16,6 @@ const slice = createSlice({
   reducers: {
     goTo: (state, action: PayloadAction<TUserView>) => {
       state.view = action.payload;
-    },
-    reset: (state) => {
-      state = initialState;
     }
   }
 });

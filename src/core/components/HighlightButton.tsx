@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styled from 'styled-components';
 import { WHITE } from './Colors';
 
@@ -10,9 +9,4 @@ const Container = styled.button`
   }
 `;
 
-const Component: FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = (props) => {
-  const { children, ...rest } = props;
-  return <Container {...rest}>{children}</Container>;
-};
-
-export default Component;
+export default Container;

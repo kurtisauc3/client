@@ -4,6 +4,7 @@ import BebasNeueOtf from '../../assets/fonts/BebasNeue-Regular.otf';
 import BebasNeueTtf from '../../assets/fonts/BebasNeue-Regular.ttf';
 import BebasNeueWoff from '../../assets/fonts/BebasNeue-Regular.woff';
 import BebasNeueWoff2 from '../../assets/fonts/BebasNeue-Regular.woff2';
+import { DARK_PURPLE } from './Colors';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -30,12 +31,21 @@ const GlobalStyle = createGlobalStyle`
   }
   #root {
     display: flex;
+    background-color: ${DARK_PURPLE};
   }
   button {
     background: transparent;
     border: none;
     cursor: pointer;
     font-size: 16px;
+  }
+  input {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: none;
+    border: none;
+    &:focus {
+      outline: none;
+    }
   }
 `;
 
