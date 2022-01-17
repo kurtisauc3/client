@@ -1,5 +1,8 @@
 import { TAN, WHITE } from 'core/components/Colors';
-import React, { FC, useState } from 'react';
+import api from 'core/services/api';
+import network from 'core/services/network';
+import { useAppDispatch } from 'core/services/store';
+import React, { FC, useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
@@ -39,17 +42,32 @@ const FormContainer = styled.form`
 
 const Component: FC = () => {
   const [username, setUsername] = useState('');
+  const dispatch = useAppDispatch();
+  const { setErrorCode } = network.actions;
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      api.script.runScript('sendFriendRequest', { username }, (result) => {
+        if ('data' in result && result.data.success) {
+          if ('friendRequests' in result.data.response) {
+            // alert success
+            setUsername('');
+          } else {
+            dispatch(setErrorCode(result.data.response.custom_error));
+          }
+        }
+      });
+    },
+    [username, setUsername, dispatch, setErrorCode]
+  );
 
   return (
     <Container>
       <Title>
         <FormattedMessage id="addFriends" />
       </Title>
-      <FormContainer
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <FormContainer id="addFriendsForm" onSubmit={handleSubmit}>
         <FaSearch />
         <input
           required
@@ -59,7 +77,7 @@ const Component: FC = () => {
             setUsername(value);
           }}
         />
-        <button type="submit" disabled={!!username.length}>
+        <button type="submit">
           <FormattedMessage id="addFriend" />
         </button>
       </FormContainer>

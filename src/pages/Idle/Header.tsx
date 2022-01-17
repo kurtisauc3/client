@@ -1,7 +1,6 @@
 import ActionButton from 'core/components/ActionButton';
 import HighlightButton from 'core/components/HighlightButton';
 import api from 'core/services/api';
-import auth from 'core/services/auth';
 import idle from 'core/services/idle';
 import { useAppDispatch, useAppSelector } from 'core/services/store';
 import user from 'core/services/user';
@@ -25,15 +24,14 @@ const Container = styled.div`
 const Component: FC = () => {
   const view = useAppSelector((state) => state.idle.view);
   const dispatch = useAppDispatch();
-  const { goTo } = idle.actions;
-  const { goTo: goToAuthPage } = auth.actions;
+  const { goTo: goToIdlePage } = idle.actions;
   const { goTo: goToUserPage } = user.actions;
   const idleViews: Array<typeof view> = ['home', 'profile'];
   return (
     <Container>
       <ActionButton
         className={view === 'play' ? 'active' : ''}
-        onClick={() => dispatch(goTo('play'))}
+        onClick={() => dispatch(goToIdlePage('play'))}
       >
         <FormattedMessage id="play"></FormattedMessage>
       </ActionButton>
@@ -41,7 +39,7 @@ const Component: FC = () => {
         <HighlightButton
           key={idleView}
           type="button"
-          onClick={() => dispatch(goTo(idleView))}
+          onClick={() => dispatch(goToIdlePage(idleView))}
           className={idleView === view ? 'active' : ''}
         >
           <FormattedMessage id={idleView}></FormattedMessage>

@@ -8,6 +8,7 @@ type ErrorResult = {
   status: number;
   status_message: string;
 };
+type CustomErrorCode = 99901 | 99902 | 99903 | 99904 | 99905;
 type Result<T> = SuccessResult<T> | ErrorResult;
 type AuthenticateEmailPasswordResult = {};
 type ResetEmailPasswordResult = {};
@@ -34,6 +35,51 @@ type UserPresence = {
 type RegisterListenersForProfilesResult = {
   presence: Array<UserPresence>;
 };
+type EventBase = {
+  createdAt: number;
+  evId: string;
+  fromPlayerId: string;
+  toPlayerId: string;
+};
+type FriendSummaryData = {
+  pictureUrl: string;
+  email: string;
+  profileId: string;
+  playerSummaryData: {};
+  profileName: string;
+};
+type FriendRequestEvent = EventBase & {
+  eventType: 'friendRequest';
+  eventData: {
+    entityId: string;
+    summaryData: FriendSummaryData;
+  };
+};
+type IncomingEvents = FriendRequestEvent;
+type RegisterRTTEventCallbackResult = {
+  data: IncomingEvents;
+  operation: 'GET_EVENTS';
+  service: 'event';
+};
+type GetEventsResult = {
+  incoming_events: Array<IncomingEvents>;
+};
+type FriendRequestScriptSuccessResult = {
+  friendRequests: Record<
+    string,
+    {
+      status: 'pending' | 'accepted';
+      summaryData: FriendSummaryData;
+    }
+  >;
+};
+type FriendRequestScriptErrorResult = {
+  custom_error: CustomErrorCode;
+};
+type FriendRequestScriptResult = {
+  response: FriendRequestScriptSuccessResult | FriendRequestScriptErrorResult;
+  success: true;
+};
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -51,6 +97,9 @@ declare module 'braincloud' {
           email: string,
           callback: (result: Result<ResetEmailPasswordResult>) => void
         );
+      };
+      event: {
+        getEvents(callback: (result: Result<GetEventsResult>) => void);
       };
       identity: {
         getIdentities(callback: (result: Result<GetIdentitiesResult>) => void);
@@ -78,6 +127,15 @@ declare module 'braincloud' {
       rttService: {
         enableRTT(callback: (result: Result<EnableRTTResult>) => void);
         disableRTT();
+        registerRTTEventCallback(callback: (result: RegisterRTTEventCallbackResult) => void);
+        deregisterRTTEventCallback(): void;
+      };
+      script: {
+        runScript(
+          scriptName: 'sendFriendRequest',
+          jsonScriptData: { username: string },
+          callback: (result: Result<FriendRequestScriptResult>) => void
+        );
       };
       getAppVersion(): string;
       getProfileId(): string;

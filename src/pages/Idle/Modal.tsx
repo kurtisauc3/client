@@ -6,6 +6,7 @@ import React, { FC } from 'react';
 import { FaTimesCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import AddFriends from './Social/AddFriends';
+import FriendRequests from './Social/FriendRequests';
 
 const Container = styled.div`
   position: absolute;
@@ -53,6 +54,8 @@ const Component: FC = () => {
     switch (modal) {
       case 'addFriends':
         return <AddFriends />;
+      case 'friendRequests':
+        return <FriendRequests />;
     }
   };
 

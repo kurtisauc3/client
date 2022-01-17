@@ -1,16 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type TIdleView = 'home' | 'play' | 'profile';
-type TModalView = 'hidden' | 'addFriends';
+type TModalView = 'hidden' | 'addFriends' | 'friendRequests';
 
 interface IIdleState {
   view: TIdleView;
   modal: TModalView;
+  friends: Array<UserPresence>;
+  friendRequests: Array<FriendRequestEvent>;
 }
 
 const initialState: IIdleState = {
   view: 'home',
-  modal: 'hidden'
+  modal: 'hidden',
+  friends: [],
+  friendRequests: []
 };
 
 const slice = createSlice({
@@ -25,6 +29,12 @@ const slice = createSlice({
     },
     hideModal: (state) => {
       state.modal = 'hidden';
+    },
+    setFriends: (state, action: PayloadAction<Array<UserPresence>>) => {
+      state.friends = action.payload;
+    },
+    setFriendRequests: (state, action: PayloadAction<Array<FriendRequestEvent>>) => {
+      state.friendRequests = action.payload;
     }
   }
 });
