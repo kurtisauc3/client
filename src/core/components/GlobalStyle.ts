@@ -4,7 +4,7 @@ import BebasNeueOtf from '../../assets/fonts/BebasNeue-Regular.otf';
 import BebasNeueTtf from '../../assets/fonts/BebasNeue-Regular.ttf';
 import BebasNeueWoff from '../../assets/fonts/BebasNeue-Regular.woff';
 import BebasNeueWoff2 from '../../assets/fonts/BebasNeue-Regular.woff2';
-import { DARK_PURPLE } from './Colors';
+import { DARK_PURPLE, TAN } from './Colors';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
   }
   button {
     background: transparent;
-    border: none;
+    border: 2px solid ${TAN};
     cursor: pointer;
     font-size: 16px;
   }

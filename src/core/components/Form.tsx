@@ -75,7 +75,7 @@ const ButtonContainer = styled.div`
     font-size: 30px;
     color: white;
     background: #ff4026;
-    border: 2px solid #ff4026;
+    border-color: #ff4026;
     cursor: pointer;
     :hover {
       opacity: 0.5;

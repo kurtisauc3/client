@@ -2,6 +2,7 @@ import { TAN, WHITE } from 'core/components/Colors';
 import api from 'core/services/api';
 import network from 'core/services/network';
 import { useAppDispatch } from 'core/services/store';
+import { CustomSuccessCode } from 'core/types/enums';
 import React, { FC, useCallback, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { FormattedMessage } from 'react-intl';
@@ -22,6 +23,7 @@ const FormContainer = styled.form`
     padding-left: 36px !important;
     margin-right: 10px;
     color: rgba(255, 255, 255, 0.8);
+    border: 2px solid ${TAN};
   }
   svg {
     position: absolute;
@@ -31,7 +33,6 @@ const FormContainer = styled.form`
   }
   input,
   button {
-    border: 2px solid ${TAN};
     background-image: linear-gradient(to top, ${WHITE + '11'}, ${WHITE + '00'});
     padding: 5px 10px;
   }

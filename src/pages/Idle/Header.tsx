@@ -14,6 +14,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   button {
+    border: none;
     padding: 0 24px;
     height: 100%;
     font-size: 20px;

@@ -4,6 +4,7 @@ import useMountedState from 'core/hooks/useMountedState';
 import api from 'core/services/api';
 import auth from 'core/services/auth';
 import { useAppDispatch } from 'core/services/store';
+import user from 'core/services/user';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Body from './Body';
@@ -49,18 +50,28 @@ const Component: FC = () => {
   const isMounted = useMountedState();
 
   const dispatch = useAppDispatch();
-  const { goTo } = auth.actions;
+  const { goTo: goToAuth } = auth.actions;
+  const { goTo: goToUser } = user.actions;
+
   useEffect(() => {
-    api.rttService.enableRTT((result) => {
-      if ('data' in result && isMounted()) {
-        setIsConnected(true);
+    api.rttService.enableRTT(
+      (result) => {
+        if ('data' in result && isMounted()) {
+          setIsConnected(true);
+        }
+      },
+      (error) => {
+        if (isMounted()) {
+          setIsConnected(false);
+          dispatch(goToUser('auth'));
+        }
       }
-    });
+    );
     return () => {
       api.rttService.disableRTT();
-      dispatch(goTo('login'));
+      dispatch(goToAuth('login'));
     };
-  }, [isMounted, dispatch, goTo]);
+  }, [isMounted, setIsConnected, dispatch, goToAuth, goToUser]);
 
   if (!isConnected) {
     return null;

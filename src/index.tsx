@@ -6,7 +6,8 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import App from './App';
 import messages from './assets/languages/en.json';
-import Loading from './Loading';
+import ErrorListener from './ErrorListener';
+import NetworkListener from './NetworkListener';
 import Notify from './Notify';
 
 ReactDOM.render(
@@ -14,8 +15,9 @@ ReactDOM.render(
     <GlobalStyle />
     <IntlProvider locale="en" defaultLocale="en" messages={messages as Record<string, string>}>
       <Provider store={store}>
+        <ErrorListener />
+        <NetworkListener />
         <Notify />
-        <Loading />
         <App />
       </Provider>
     </IntlProvider>

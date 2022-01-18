@@ -23,6 +23,7 @@
   "code.40209": "email not registered",
   "code.40304": "user not logged in",
   "code.40307": "invalid credentials",
+  "code.40356": "logged in elsewhere",
   "code.99901": "no user by that name",
   "code.99902": "request already received",
   "code.99903": "user is already added",
@@ -33,5 +34,7 @@
   "friendRequests": "friend requests",
   "social": "social",
   "addFriends": "add friends",
-  "addFriend": "add friend"
+  "addFriend": "add friend",
+  "accept": "accept",
+  "decline": "decline"
 }

@@ -8,24 +8,8 @@ type ErrorResult = {
   status: number;
   status_message: string;
 };
-enum ReasonCode {
-  UsernameTaken = 40207,
-  UsernameDoesNotExist = 40208,
-  EmailNotRegistered = 40209,
-  UserSessionExpired = 40304,
-  InvalidCredentials = 40307
-}
-enum CustomSuccessCode {
-  FriendRequestSent = 22201
-}
-enum CustomErrorCode {
-  NoUserByThatName = 99901,
-  RequestAlreadyReceived = 99902,
-  UserAlreadyAdded = 99903,
-  RequestAlreadySent = 99904,
-  CannotAddYourself = 99905
-}
-type CustomCode = ReasonCode | CustomErrorCode | CustomSuccessCode;
+
+type CustomCode = number;
 type Result<T> = SuccessResult<T> | ErrorResult;
 type AuthenticateEmailPasswordResult = {};
 type ResetEmailPasswordResult = {};
@@ -81,7 +65,7 @@ type RegisterRTTEventCallbackResult = {
 type GetEventsResult = {
   incoming_events: Array<IncomingEvents>;
 };
-type FriendRequestScriptSuccessResult = {
+type SendFriendRequestScriptSuccessResult = {
   friendRequests: Record<
     string,
     {
@@ -90,11 +74,11 @@ type FriendRequestScriptSuccessResult = {
     }
   >;
 };
-type FriendRequestScriptErrorResult = {
+type SendFriendRequestScriptErrorResult = {
   custom_error: CustomErrorCode;
 };
-type FriendRequestScriptResult = {
-  response: FriendRequestScriptSuccessResult | FriendRequestScriptErrorResult;
+type SendFriendRequestScriptResult = {
+  response: SendFriendRequestScriptSuccessResult | SendFriendRequestScriptErrorResult;
   success: true;
 };
 
@@ -142,7 +126,10 @@ declare module 'braincloud' {
         );
       };
       rttService: {
-        enableRTT(callback: (result: Result<EnableRTTResult>) => void);
+        enableRTT(
+          callback: (result: Result<EnableRTTResult>) => void,
+          errorCallback: (error: EnableRTTError) => void
+        );
         disableRTT();
         registerRTTEventCallback(callback: (result: RegisterRTTEventCallbackResult) => void);
         deregisterRTTEventCallback(): void;
@@ -151,7 +138,7 @@ declare module 'braincloud' {
         runScript(
           scriptName: 'sendFriendRequest',
           jsonScriptData: { username: string },
-          callback: (result: Result<FriendRequestScriptResult>) => void
+          callback: (result: Result<SendFriendRequestScriptResult>) => void
         );
       };
       getAppVersion(): string;
