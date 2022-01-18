@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type TNetworkView = 'hidden' | 'loading';
+type TNotify = {
+  type: 'error' | 'success';
+  code: CustomCode;
+};
 
 interface TUserState {
   view: TNetworkView;
-  errorCode?: number;
+  notify?: TNotify;
 }
 
 const initialState: TUserState = {
@@ -18,11 +22,11 @@ const slice = createSlice({
     goTo: (state, action: PayloadAction<TNetworkView>) => {
       state.view = action.payload;
     },
-    setErrorCode: (state, action: PayloadAction<number>) => {
-      state.errorCode = action.payload;
+    setNotify: (state, action: PayloadAction<TNotify>) => {
+      state.notify = action.payload;
     },
-    clearErrorCode: (state) => {
-      state.errorCode = undefined;
+    clearNotify: (state) => {
+      state.notify = undefined;
     }
   }
 });

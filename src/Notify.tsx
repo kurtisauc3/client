@@ -5,7 +5,7 @@ import api from 'core/services/api';
 import network from 'core/services/network';
 import { useAppDispatch, useAppSelector } from 'core/services/store';
 import user from 'core/services/user';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
@@ -19,17 +19,27 @@ const Title = styled.div`
   text-align: center;
   margin: 10px 0;
 `;
-const ErrorContainer = styled.div`
+const NotifyContainer = styled.div`
   color: ${TAN};
   text-align: center;
   margin: 10px 0;
 `;
 
 const Component: FC = () => {
-  const { errorCode } = useAppSelector((state) => state.network);
+  const { notify } = useAppSelector((state) => state.network);
   const dispatch = useAppDispatch();
   const { goTo } = user.actions;
-  const { setErrorCode, clearErrorCode } = network.actions;
+  const { setNotify, clearNotify } = network.actions;
+
+  const onKeyDown: (ev: KeyboardEvent) => void = useCallback(
+    (event) => {
+      if (notify && event.key === 'Enter') {
+        event.preventDefault();
+        dispatch(clearNotify());
+      }
+    },
+    [notify, dispatch, clearNotify]
+  );
 
   useEffect(() => {
     api.setErrorCallback(({ reason_code }) => {
@@ -38,29 +48,34 @@ const Component: FC = () => {
           dispatch(goTo('auth'));
           break;
         default:
-          dispatch(setErrorCode(reason_code));
+          dispatch(setNotify({ type: 'error', code: reason_code }));
           break;
       }
     });
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
   });
 
-  if (!errorCode) {
+  if (!notify) {
     return null;
   }
 
   return (
     <Overlay
       onClick={() => {
-        dispatch(clearErrorCode());
+        dispatch(clearNotify());
       }}
     >
       <BorderContainer>
         <Title>
-          <FormattedMessage id="error" />
+          <FormattedMessage id={notify.type} />
         </Title>
-        <ErrorContainer>
-          <FormattedMessage id={`error.${errorCode}`} />
-        </ErrorContainer>
+        <NotifyContainer>
+          <FormattedMessage id={`code.${notify.code}`} />
+        </NotifyContainer>
       </BorderContainer>
     </Overlay>
   );

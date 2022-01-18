@@ -8,7 +8,24 @@ type ErrorResult = {
   status: number;
   status_message: string;
 };
-type CustomErrorCode = 99901 | 99902 | 99903 | 99904 | 99905;
+enum ReasonCode {
+  UsernameTaken = 40207,
+  UsernameDoesNotExist = 40208,
+  EmailNotRegistered = 40209,
+  UserSessionExpired = 40304,
+  InvalidCredentials = 40307
+}
+enum CustomSuccessCode {
+  FriendRequestSent = 22201
+}
+enum CustomErrorCode {
+  NoUserByThatName = 99901,
+  RequestAlreadyReceived = 99902,
+  UserAlreadyAdded = 99903,
+  RequestAlreadySent = 99904,
+  CannotAddYourself = 99905
+}
+type CustomCode = ReasonCode | CustomErrorCode | CustomSuccessCode;
 type Result<T> = SuccessResult<T> | ErrorResult;
 type AuthenticateEmailPasswordResult = {};
 type ResetEmailPasswordResult = {};

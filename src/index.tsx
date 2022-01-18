@@ -6,15 +6,15 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import App from './App';
 import messages from './assets/languages/en.json';
-import Error from './Error';
 import Loading from './Loading';
+import Notify from './Notify';
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />
     <IntlProvider locale="en" defaultLocale="en" messages={messages as Record<string, string>}>
       <Provider store={store}>
-        <Error />
+        <Notify />
         <Loading />
         <App />
       </Provider>

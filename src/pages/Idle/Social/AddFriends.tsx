@@ -43,7 +43,7 @@ const FormContainer = styled.form`
 const Component: FC = () => {
   const [username, setUsername] = useState('');
   const dispatch = useAppDispatch();
-  const { setErrorCode } = network.actions;
+  const { setNotify } = network.actions;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
@@ -51,15 +51,15 @@ const Component: FC = () => {
       api.script.runScript('sendFriendRequest', { username }, (result) => {
         if ('data' in result && result.data.success) {
           if ('friendRequests' in result.data.response) {
-            // alert success
+            dispatch(setNotify({ type: 'success', code: CustomSuccessCode.FriendRequestSent }));
             setUsername('');
           } else {
-            dispatch(setErrorCode(result.data.response.custom_error));
+            dispatch(setNotify({ type: 'error', code: result.data.response.custom_error }));
           }
         }
       });
     },
-    [username, setUsername, dispatch, setErrorCode]
+    [username, setUsername, dispatch, setNotify]
   );
 
   return (
