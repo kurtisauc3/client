@@ -16,10 +16,6 @@ const Component: FC = () => {
         case ReasonCode.UserSessionExpired:
           dispatch(goTo('auth'));
           break;
-        case ReasonCode.LoggedInElsewhere:
-          dispatch(setNotify({ type: 'error', code: reason_code }));
-          dispatch(goTo('auth'));
-          break;
         default:
           dispatch(setNotify({ type: 'error', code: reason_code }));
           break;
