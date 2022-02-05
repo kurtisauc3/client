@@ -11,8 +11,9 @@ type ErrorResult = {
 
 type CustomCode = number;
 type Result<T> = SuccessResult<T> | ErrorResult;
-type AuthenticateEmailPasswordResult = {};
-type ResetEmailPasswordResult = {};
+type AuthenticateUniversalResult = {
+  incoming_events: Array<IncomingEvents>;
+};
 type PlayerStateLogoutResult = {};
 type GetIdentitiesResult = {
   identities: {
@@ -62,25 +63,18 @@ type RegisterRTTEventCallbackResult = {
   operation: 'GET_EVENTS';
   service: 'event';
 };
+type RegisterRTTPresenceCallbackResult = {};
 type GetEventsResult = {
   incoming_events: Array<IncomingEvents>;
 };
-type SendFriendRequestScriptSuccessResult = {
-  friendRequests: Record<
-    string,
-    {
-      status: 'pending' | 'accepted';
-      summaryData: FriendSummaryData;
-    }
-  >;
-};
-type SendFriendRequestScriptErrorResult = {
-  custom_error: CustomErrorCode;
-};
-type SendFriendRequestScriptResult = {
-  response: SendFriendRequestScriptSuccessResult | SendFriendRequestScriptErrorResult;
+type RunScriptResult = {
+  response: {
+    custom_error?: CustomErrorCode;
+  };
   success: true;
 };
+type PresencePlatform = 'all' | 'brainCloud' | 'facebook';
+type RTTStatus = 'loading' | 'connected' | 'disconnected';
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -88,15 +82,11 @@ declare module 'braincloud' {
     brainCloudClient: {
       initialize(id: string, secret: string, version: string);
       authentication: {
-        authenticateEmailPassword(
-          email: string,
+        authenticateUniversal(
+          username: string,
           password: string,
           forceCreate: boolean,
-          callback: (result: Result<AuthenticateEmailPasswordResult>) => void
-        );
-        resetEmailPassword(
-          email: string,
-          callback: (result: Result<ResetEmailPasswordResult>) => void
+          callback?: (result: Result<AuthenticateUniversalResult>) => void
         );
       };
       event: {
@@ -106,44 +96,66 @@ declare module 'braincloud' {
         getIdentities(callback: (result: Result<GetIdentitiesResult>) => void);
         attachNonLoginUniversalId(
           externalId: string,
-          callback: (result: Result<GetIdentitiesResult>) => void
+          callback?: (result: Result<GetIdentitiesResult>) => void
         );
       };
       playerState: {
-        logout(callback: (result: Result<PlayerStateLogoutResult>) => void);
+        logout(callback?: (result: Result<PlayerStateLogoutResult>) => void);
       };
       presence: {
-        stopListening(callback?: (result: Result<StopListeningResult>) => void);
+        getPresenceOfFriends(
+          platform: PresencePlatform,
+          includeOffline: boolean,
+          callback?: (result: Result<RegisterListenersForProfilesResult>) => void
+        );
+        getPresenceOfUsers(
+          profileIds: Array<string>,
+          includeOffline: boolean,
+          callback?: (result: Result<RegisterListenersForProfilesResult>) => void
+        );
+        registerListenersForFriends(
+          platform: PresencePlatform,
+          bidirectional: boolean,
+          callback?: (result: Result<RegisterListenersForProfilesResult>) => void
+        );
         registerListenersForProfiles(
           profileIds: Array<string>,
           bidirectional: boolean,
-          callback: (result: Result<RegisterListenersForProfilesResult>) => void
+          callback?: (result: Result<RegisterListenersForProfilesResult>) => void
         );
-        registerListenersForFriends(
-          platform: 'all' | 'brainCloud' | 'facebook',
-          bidirectional: boolean,
-          callback: (result: Result<RegisterListenersForProfilesResult>) => void
-        );
+        stopListening(callback?: (result: Result<StopListeningResult>) => void);
       };
       rttService: {
         enableRTT(
-          callback: (result: Result<EnableRTTResult>) => void,
-          errorCallback: (error: EnableRTTError) => void
+          callback?: (result: Result<EnableRTTResult>) => void,
+          errorCallback?: (error: EnableRTTError) => void
         );
         disableRTT();
-        registerRTTEventCallback(callback: (result: RegisterRTTEventCallbackResult) => void);
-        deregisterRTTEventCallback(): void;
+        isRTTEnabled(): boolean;
+        registerRTTEventCallback(callback?: (result: RegisterRTTEventCallbackResult) => void);
+        deregisterAllRTTCallbacks(): void;
       };
       script: {
         runScript(
           scriptName: 'sendFriendRequest',
           jsonScriptData: { username: string },
-          callback: (result: Result<SendFriendRequestScriptResult>) => void
+          callback?: (result: Result<RunScriptResult>) => void
+        );
+        runScript(
+          scriptName: 'acceptFriendRequest',
+          jsonScriptData: { profileId: string; entityId: string; eventId: string },
+          callback?: (result: Result<RunScriptResult>) => void
+        );
+        runScript(
+          scriptName: 'declineFriendRequest',
+          jsonScriptData: { profileId: string; entityId: string; eventId: string },
+          callback?: (result: Result<RunScriptResult>) => void
         );
       };
+      deregisterAllRTTCallbacks(): void;
       getAppVersion(): string;
       getProfileId(): string;
-      setErrorCallback(callback: (error: ErrorResult) => void);
+      setErrorCallback(callback?: (error: ErrorResult) => void);
     };
   }
 }

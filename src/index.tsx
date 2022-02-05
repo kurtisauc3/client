@@ -1,26 +1,21 @@
-import GlobalStyle from 'core/components/GlobalStyle';
-import store from 'core/services/store';
+import store from 'core/redux/store';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import messages from './assets/languages/en.json';
-import ErrorListener from './ErrorListener';
-import NetworkListener from './NetworkListener';
-import Notify from './Notify';
+import messages from './assets/languages/en';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <GlobalStyle />
-    <IntlProvider locale="en" defaultLocale="en" messages={messages as Record<string, string>}>
-      <Provider store={store}>
-        <ErrorListener />
-        <NetworkListener />
-        <Notify />
-        <App />
-      </Provider>
-    </IntlProvider>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <React.StrictMode>
+      <IntlProvider locale="en" defaultLocale="en" messages={messages}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </IntlProvider>
+    </React.StrictMode>
+  </BrowserRouter>,
   document.getElementById('root')
 );

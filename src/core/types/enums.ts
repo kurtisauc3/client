@@ -7,7 +7,9 @@ export enum ReasonCode {
   LoggedInElsewhere = 40356
 }
 export enum CustomSuccessCode {
-  FriendRequestSent = 22201
+  FriendRequestSent = 22201,
+  FriendRequestAccepted = 22202,
+  FriendRequestDeclined = 22203
 }
 export enum CustomErrorCode {
   NoUserByThatName = 99901,

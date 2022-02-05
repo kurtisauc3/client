@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { WHITE } from './Colors';
+import Colors from './Colors';
 
 const Container = styled.button`
   cursor: pointer;
   &.active,
   &:hover {
-    background-image: linear-gradient(to top, ${WHITE + '33'}, ${WHITE + '00'});
+    background-image: linear-gradient(to top, ${Colors.WHITE + '33'}, ${Colors.WHITE + '00'});
   }
 `;
 

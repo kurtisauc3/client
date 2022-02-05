@@ -1,16 +1,16 @@
 import DefaultPicture from 'assets/images/DefaultPicture.png';
-import { BLACK, TAN } from 'core/components/Colors';
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import Colors from './Colors';
 
 type TAvatar = Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src'> & {
   src?: string | null;
 };
 
 const Container = styled.img`
-  border: 2px solid ${TAN};
+  border: 2px solid ${Colors.TAN};
   border-radius: 50%;
-  background-color: ${BLACK};
+  background-color: ${Colors.BLACK};
   object-fit: contain;
   min-height: 80%;
   max-height: 80%;

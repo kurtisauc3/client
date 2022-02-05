@@ -13,4 +13,5 @@ const appData: AppData = sendSync('appData');
 const { id, name, secret, version } = appData;
 const { brainCloudClient } = new BrainCloudWrapper(name);
 brainCloudClient.initialize(id, secret, version);
+
 export default brainCloudClient;

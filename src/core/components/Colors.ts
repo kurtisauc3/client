@@ -1,10 +1,13 @@
-export const GREY = '#868585';
-export const WHITE = '#FAFAFA';
-export const BLACK = '#000000';
-export const DARK_PURPLE = '#332943';
-export const LIGHT_PURPLE = '#987DCF';
-export const TAN = '#938F5A';
-export const GREEN = '#669E36';
-export const BLUE = '#009ACF';
-export const RED = '#EB6084';
-export const YELLOW = '#EC9929';
+enum Colors {
+  GREY = '#868585',
+  WHITE = '#FAFAFA',
+  BLACK = '#000000',
+  DARK_PURPLE = '#332943',
+  LIGHT_PURPLE = '#987DCF',
+  TAN = '#938F5A',
+  GREEN = '#669E36',
+  BLUE = '#009ACF',
+  RED = '#EB6084',
+  YELLOW = '#EC9929'
+}
+export default Colors;

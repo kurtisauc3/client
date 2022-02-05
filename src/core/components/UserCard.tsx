@@ -1,8 +1,8 @@
-import { GREEN, TAN, WHITE } from 'core/components/Colors';
 import React, { FC } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import Avatar from './Avatar';
+import Colors from './Colors';
 
 type IUserCardProps = React.HTMLAttributes<HTMLDivElement> & {
   userPresence: UserPresence;
@@ -13,6 +13,7 @@ const Container = styled.div`
   flex-direction: row;
   padding: 0 5px;
   height: 100%;
+  width: 100%;
   * {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -29,19 +30,23 @@ const UserContainer = styled.div`
   flex-direction: column;
   padding: 0 15px;
   justify-content: center;
+  overflow: hidden;
 `;
 
 const UsernameContainer = styled.div`
-  color: ${WHITE}!important;
+  color: ${Colors.WHITE}!important;
+  /* overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
 `;
 
 const UserStatusContainer = styled.div`
   font-size: 14px;
   &.online {
-    color: ${GREEN}!important;
+    color: ${Colors.GREEN}!important;
   }
   &.offline {
-    color: ${TAN}!important;
+    color: ${Colors.TAN}!important;
   }
 `;
 
