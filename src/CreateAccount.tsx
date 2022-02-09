@@ -11,17 +11,12 @@ type FormValues = {
 
 const Component: FC = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<FormValues>({
-    defaultValues: {
-      username: 'kurtistrainor@gmail.com',
-      password: 'kurtistrainor@gmail.com'
-    }
-  });
+  const { register, handleSubmit } = useForm<FormValues>();
 
   return (
     <form
       onSubmit={handleSubmit(({ username, password }) => {
-        api.authentication.authenticateUniversal(username, password, false, (result) => {
+        api.authentication.authenticateUniversal(username, password, true, (result) => {
           if ('data' in result) {
             navigate('/');
           }
@@ -29,20 +24,20 @@ const Component: FC = () => {
       })}
     >
       <div>
-        <label htmlFor="login-username">
+        <label htmlFor="create-account-username">
           <FormattedMessage id="username" />
         </label>
-        <input autoFocus id="login-username" {...register('username')} />
+        <input autoFocus id="create-account-username" {...register('username')} />
       </div>
       <div>
-        <label htmlFor="login-password">
+        <label htmlFor="create-account-password">
           <FormattedMessage id="password" />
         </label>
-        <input id="login-password" type="password" {...register('password')} />
+        <input id="create-account-password" type="password" {...register('password')} />
       </div>
       <div>
         <button type="submit">
-          <FormattedMessage id="login" />
+          <FormattedMessage id="createAccount" />
         </button>
       </div>
     </form>

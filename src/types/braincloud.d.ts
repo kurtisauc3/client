@@ -11,7 +11,7 @@ type ErrorResult = {
 
 type CustomCode = number;
 type Result<T> = SuccessResult<T> | ErrorResult;
-type AuthenticateEmailPasswordResult = {};
+type AuthenticateUniversalResult = {};
 type PlayerStateLogoutResult = {};
 type EnableRTTResult = {};
 type StopListeningResult = {};
@@ -65,11 +65,11 @@ declare module 'braincloud' {
     brainCloudClient: {
       initialize(id: string, secret: string, version: string);
       authentication: {
-        authenticateEmailPassword(
-          email: string,
+        authenticateUniversal(
+          username: string,
           password: string,
           forceCreate: boolean,
-          callback?: (result: Result<AuthenticateEmailPasswordResult>) => void
+          callback?: (result: Result<AuthenticateUniversalResult>) => void
         );
       };
       event: {
