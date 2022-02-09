@@ -13,7 +13,7 @@ const Component: FC = () => {
         onClick={() => {
           api.playerState.logout((result) => {
             if ('data' in result) {
-              navigate('/login');
+              navigate('/authenticate');
             }
           });
         }}

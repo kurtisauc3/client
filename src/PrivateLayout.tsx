@@ -8,7 +8,7 @@ const Component: FC = () => {
   const profileId = api.getProfileId();
 
   if (!profileId.length) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/authenticate" />;
   }
 
   return (

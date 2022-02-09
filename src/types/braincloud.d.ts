@@ -66,7 +66,7 @@ declare module 'braincloud' {
       initialize(id: string, secret: string, version: string);
       authentication: {
         authenticateUniversal(
-          username: string,
+          universalId: string,
           password: string,
           forceCreate: boolean,
           callback?: (result: Result<AuthenticateUniversalResult>) => void

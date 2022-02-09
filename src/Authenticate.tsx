@@ -5,23 +5,25 @@ import { useNavigate } from 'react-router-dom';
 import api from 'services/api';
 
 type FormValues = {
-  username: string;
+  universalId: string;
   password: string;
+  forceCreate: boolean;
 };
 
 const Component: FC = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      username: 'kurtistrainor@gmail.com',
-      password: 'kurtistrainor@gmail.com'
+      universalId: 'kurtistrainor@gmail.com',
+      password: 'kurtistrainor@gmail.com',
+      forceCreate: false
     }
   });
 
   return (
     <form
-      onSubmit={handleSubmit(({ username, password }) => {
-        api.authentication.authenticateUniversal(username, password, false, (result) => {
+      onSubmit={handleSubmit(({ universalId, password, forceCreate }) => {
+        api.authentication.authenticateUniversal(universalId, password, forceCreate, (result) => {
           if ('data' in result) {
             navigate('/');
           }
@@ -29,10 +31,10 @@ const Component: FC = () => {
       })}
     >
       <div>
-        <label htmlFor="login-username">
-          <FormattedMessage id="username" />
+        <label htmlFor="login-universal-id">
+          <FormattedMessage id="universalId" />
         </label>
-        <input autoFocus id="login-username" {...register('username')} />
+        <input autoFocus id="login-universal-id" {...register('universalId')} />
       </div>
       <div>
         <label htmlFor="login-password">
@@ -41,8 +43,14 @@ const Component: FC = () => {
         <input id="login-password" type="password" {...register('password')} />
       </div>
       <div>
+        <label htmlFor="login-force-create">
+          <FormattedMessage id="forceCreate" />
+        </label>
+        <input id="login-force-create" type="checkbox" {...register('forceCreate')} />
+      </div>
+      <div>
         <button type="submit">
-          <FormattedMessage id="login" />
+          <FormattedMessage id="authenticate" />
         </button>
       </div>
     </form>
