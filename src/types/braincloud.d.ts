@@ -11,16 +11,8 @@ type ErrorResult = {
 
 type CustomCode = number;
 type Result<T> = SuccessResult<T> | ErrorResult;
-type AuthenticateUniversalResult = {
-  incoming_events: Array<IncomingEvents>;
-};
+type AuthenticateEmailPasswordResult = {};
 type PlayerStateLogoutResult = {};
-type GetIdentitiesResult = {
-  identities: {
-    Email: string;
-    Universal: string | undefined;
-  };
-};
 type EnableRTTResult = {};
 type StopListeningResult = {};
 type UserPresence = {
@@ -50,14 +42,10 @@ type FriendSummaryData = {
   playerSummaryData: {};
   profileName: string;
 };
-type FriendRequestEvent = EventBase & {
-  eventType: 'friendRequest';
-  eventData: {
-    entityId: string;
-    summaryData: FriendSummaryData;
-  };
+type IncomingEvents = {
+  eventType: string;
+  eventData: Record<string, unknown>;
 };
-type IncomingEvents = FriendRequestEvent;
 type RegisterRTTEventCallbackResult = {
   data: IncomingEvents;
   operation: 'GET_EVENTS';
@@ -67,14 +55,9 @@ type RegisterRTTPresenceCallbackResult = {};
 type GetEventsResult = {
   incoming_events: Array<IncomingEvents>;
 };
-type RunScriptResult = {
-  response: {
-    custom_error?: CustomErrorCode;
-  };
-  success: true;
-};
 type PresencePlatform = 'all' | 'brainCloud' | 'facebook';
-type RTTStatus = 'loading' | 'connected' | 'disconnected';
+type LoadingStatus = 'loading' | 'loaded';
+type RTTStatus = 'connecting' | 'connected' | 'disconnected';
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -82,11 +65,11 @@ declare module 'braincloud' {
     brainCloudClient: {
       initialize(id: string, secret: string, version: string);
       authentication: {
-        authenticateUniversal(
-          username: string,
+        authenticateEmailPassword(
+          email: string,
           password: string,
           forceCreate: boolean,
-          callback?: (result: Result<AuthenticateUniversalResult>) => void
+          callback?: (result: Result<AuthenticateEmailPasswordResult>) => void
         );
       };
       event: {
@@ -132,27 +115,7 @@ declare module 'braincloud' {
         );
         disableRTT();
         isRTTEnabled(): boolean;
-        registerRTTEventCallback(callback?: (result: RegisterRTTEventCallbackResult) => void);
-        deregisterAllRTTCallbacks(): void;
       };
-      script: {
-        runScript(
-          scriptName: 'sendFriendRequest',
-          jsonScriptData: { username: string },
-          callback?: (result: Result<RunScriptResult>) => void
-        );
-        runScript(
-          scriptName: 'acceptFriendRequest',
-          jsonScriptData: { profileId: string; entityId: string; eventId: string },
-          callback?: (result: Result<RunScriptResult>) => void
-        );
-        runScript(
-          scriptName: 'declineFriendRequest',
-          jsonScriptData: { profileId: string; entityId: string; eventId: string },
-          callback?: (result: Result<RunScriptResult>) => void
-        );
-      };
-      deregisterAllRTTCallbacks(): void;
       getAppVersion(): string;
       getProfileId(): string;
       setErrorCallback(callback?: (error: ErrorResult) => void);
