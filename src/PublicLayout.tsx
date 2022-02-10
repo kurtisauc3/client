@@ -11,10 +11,10 @@ const Component: FC = () => {
   });
 
   return (
-    <>
-      <div>public layout</div>
+    <div>
+      <>public layout</>
       <Outlet />
-    </>
+    </div>
   );
 };
 

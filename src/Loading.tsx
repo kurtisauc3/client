@@ -15,10 +15,10 @@ const Component: FC = () => {
   });
 
   return (
-    <div>
+    <>
       <div>loading</div>
       <div>value: {status}</div>
-    </div>
+    </>
   );
 };
 

@@ -22,7 +22,6 @@ This project requires a uses electron, react, and braincloud.
 ### Install Dependencies
 
 ```
-nvm install
 npm install
 ```
 

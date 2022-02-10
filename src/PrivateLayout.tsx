@@ -12,12 +12,12 @@ const Component: FC = () => {
   }
 
   return (
-    <>
-      <div>private layout</div>
+    <div>
+      <>private layout</>
       <Connection />
       <Logout />
       <Outlet />
-    </>
+    </div>
   );
 };
 

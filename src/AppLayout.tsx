@@ -5,12 +5,12 @@ import Notify from './Notify';
 
 const Component: FC = () => {
   return (
-    <>
-      <div>app layout</div>
+    <div>
+      <>app layout</>
       <Loading />
       <Notify />
       <Outlet />
-    </>
+    </div>
   );
 };
 

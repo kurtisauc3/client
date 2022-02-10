@@ -51,7 +51,7 @@ const Component: FC = () => {
   });
 
   return (
-    <div>
+    <>
       <div>connection</div>
       <div>value: {status}</div>
       <div>
@@ -59,7 +59,7 @@ const Component: FC = () => {
           connect
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
