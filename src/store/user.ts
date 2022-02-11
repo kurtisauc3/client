@@ -13,10 +13,10 @@ const slice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setProfile: (state, action: PayloadAction<UserPresence | undefined>) => {
+    setProfile: (state, action: PayloadAction<UserPresence>) => {
       state.profile = action.payload;
     },
-    setFriends: (state, action: PayloadAction<Array<UserPresence> | undefined>) => {
+    setFriends: (state, action: PayloadAction<Array<UserPresence>>) => {
       state.friends = action.payload;
     },
     reset: () => initialState

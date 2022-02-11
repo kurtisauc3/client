@@ -56,8 +56,8 @@ type GetEventsResult = {
   incoming_events: Array<IncomingEvents>;
 };
 type PresencePlatform = 'all' | 'brainCloud' | 'facebook';
-type LoadingStatus = 'loading' | 'loaded';
-type RTTStatus = 'connecting' | 'connected' | 'disconnected';
+type RTTStatus = 'connected' | 'disconnected';
+type AddFriendsResult = {};
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -74,6 +74,9 @@ declare module 'braincloud' {
       };
       event: {
         getEvents(callback: (result: Result<GetEventsResult>) => void);
+      };
+      friend: {
+        addFriends(profileIds: string[], callback: (result: Result<AddFriendsResult>) => void);
       };
       identity: {
         getIdentities(callback: (result: Result<GetIdentitiesResult>) => void);

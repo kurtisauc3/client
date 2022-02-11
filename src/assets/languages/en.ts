@@ -4,7 +4,8 @@ const messages: IntlConfig['messages'] = {
   universalId: 'universal id',
   password: 'password',
   forceCreate: 'force create',
-  authenticate: 'authenticate',
-  logout: 'logout'
+  submit: 'submit',
+  logout: 'logout',
+  profileId: 'profile id'
 };
 export default messages;

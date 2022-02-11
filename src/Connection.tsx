@@ -7,7 +7,7 @@ import { loadFriends, loadProfile } from 'store/user';
 const Component: FC = () => {
   const dispatch = useAppDispatch();
   const isMounted = useMountedState();
-  const [status, setStatus] = useState<RTTStatus>('connecting');
+  const [status, setStatus] = useState<RTTStatus>();
 
   const connect = useCallback(() => {
     if (status !== 'connected') {
@@ -52,13 +52,13 @@ const Component: FC = () => {
 
   return (
     <>
-      <div>connection</div>
-      <div>value: {status}</div>
-      <div>
-        <button disabled={status !== 'disconnected'} type="button" onClick={connect}>
-          connect
-        </button>
-      </div>
+      {status === 'disconnected' && (
+        <div>
+          <button type="button" onClick={connect}>
+            connect
+          </button>
+        </div>
+      )}
     </>
   );
 };

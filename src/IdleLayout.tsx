@@ -1,9 +1,6 @@
 import { FC } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, NavLink, Outlet } from 'react-router-dom';
 import api from 'services/api';
-import AddFriends from './AddFriends';
-import Connection from './Connection';
-import Logout from './Logout';
 
 const Component: FC = () => {
   const profileId = api.getProfileId();
@@ -14,10 +11,12 @@ const Component: FC = () => {
 
   return (
     <div>
-      <>private layout</>
-      <Connection />
-      <Logout />
-      <AddFriends />
+      <>idle layout</>
+      <div>
+        <NavLink to="">home</NavLink>
+        <NavLink to="play">play</NavLink>
+        <NavLink to="profile">profile</NavLink>
+      </div>
       <Outlet />
     </div>
   );

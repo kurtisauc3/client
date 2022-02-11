@@ -21,39 +21,42 @@ const Component: FC = () => {
   });
 
   return (
-    <form
-      onSubmit={handleSubmit(({ universalId, password, forceCreate }) => {
-        api.authentication.authenticateUniversal(universalId, password, forceCreate, (result) => {
-          if ('data' in result) {
-            navigate('/');
-          }
-        });
-      })}
-    >
-      <div>
-        <label htmlFor="login-universal-id">
-          <FormattedMessage id="universalId" />
-        </label>
-        <input autoFocus id="login-universal-id" {...register('universalId')} />
-      </div>
-      <div>
-        <label htmlFor="login-password">
-          <FormattedMessage id="password" />
-        </label>
-        <input id="login-password" type="password" {...register('password')} />
-      </div>
-      <div>
-        <label htmlFor="login-force-create">
-          <FormattedMessage id="forceCreate" />
-        </label>
-        <input id="login-force-create" type="checkbox" {...register('forceCreate')} />
-      </div>
-      <div>
-        <button type="submit">
-          <FormattedMessage id="authenticate" />
-        </button>
-      </div>
-    </form>
+    <div>
+      <>authenticate</>
+      <form
+        onSubmit={handleSubmit(({ universalId, password, forceCreate }) => {
+          api.authentication.authenticateUniversal(universalId, password, forceCreate, (result) => {
+            if ('data' in result) {
+              navigate('/');
+            }
+          });
+        })}
+      >
+        <div>
+          <label htmlFor="login-universal-id">
+            <FormattedMessage id="universalId" />
+          </label>
+          <input autoFocus id="login-universal-id" {...register('universalId')} />
+        </div>
+        <div>
+          <label htmlFor="login-password">
+            <FormattedMessage id="password" />
+          </label>
+          <input id="login-password" type="password" {...register('password')} />
+        </div>
+        <div>
+          <label htmlFor="login-force-create">
+            <FormattedMessage id="forceCreate" />
+          </label>
+          <input id="login-force-create" type="checkbox" {...register('forceCreate')} />
+        </div>
+        <div>
+          <button type="submit">
+            <FormattedMessage id="submit" />
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
