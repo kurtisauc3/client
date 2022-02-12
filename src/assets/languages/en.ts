@@ -6,6 +6,8 @@ const messages: IntlConfig['messages'] = {
   forceCreate: 'force create',
   submit: 'submit',
   logout: 'logout',
-  profileId: 'profile id'
+  profileId: 'profile id',
+  userName: 'user name',
+  userPictureUrl: 'user picture url'
 };
 export default messages;

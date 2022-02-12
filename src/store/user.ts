@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from 'services/api';
 import { ApiAction } from './index';
 
-interface TEventsState {
+interface TUserStore {
   friends?: Array<UserPresence>;
   profile?: UserPresence;
 }
 
-const initialState: TEventsState = {};
+const initialState: TUserStore = {};
 
 const slice = createSlice({
   name: 'user',

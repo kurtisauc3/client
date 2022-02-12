@@ -2,31 +2,33 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import api from 'services/api';
+import { useAppSelector } from 'store';
 
 type FormValues = {
-  profileIds: string[];
+  userName: string;
 };
 
 const Component: FC = () => {
+  const name = useAppSelector((state) => state.user.profile?.user.name);
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      profileIds: []
+      userName: name
     }
   });
 
   return (
     <div>
-      <>add friends</>
+      <>update user name</>
       <form
-        onSubmit={handleSubmit(({ profileIds }) => {
-          api.friend.addFriends(profileIds);
+        onSubmit={handleSubmit(({ userName }) => {
+          api.playerState.updateUserName(userName);
         })}
       >
         <div>
-          <label htmlFor="profile-id">
-            <FormattedMessage id="profileId" />
+          <label htmlFor="user-name">
+            <FormattedMessage id="userName" />
           </label>
-          <input id="profile-id" {...register('profileIds.0')} />
+          <input id="user-name" {...register('userName')} />
         </div>
         <div>
           <button type="submit">

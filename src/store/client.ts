@@ -4,11 +4,11 @@ type TNotify = {
   type: 'error' | 'success';
   messageCode: CustomCode;
 };
-interface IClientState {
+interface IClientStore {
   notify?: TNotify;
 }
 
-const initialState: IClientState = {};
+const initialState: IClientStore = {};
 
 const slice = createSlice({
   name: 'client',

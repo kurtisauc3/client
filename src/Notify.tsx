@@ -18,8 +18,8 @@ const Component: FC = () => {
     <>
       {notify && (
         <>
-          <div>notify.type: {notify.type}</div>
-          <div>notify.messageCode: {notify.messageCode}</div>
+          <div>type: {notify.type}</div>
+          <div>messageCode: {notify.messageCode}</div>
           <div>
             <button type="button" onClick={clearNotify}>
               clear notify

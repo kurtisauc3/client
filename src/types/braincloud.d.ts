@@ -15,13 +15,14 @@ type AuthenticateUniversalResult = {};
 type PlayerStateLogoutResult = {};
 type EnableRTTResult = {};
 type StopListeningResult = {};
+type UserPresenceData = {
+  id: string;
+  name: string;
+  pic: string | null;
+  cxs: Array<string>;
+};
 type UserPresence = {
-  user: {
-    id: string;
-    name: string;
-    pic: string | null;
-    cxs: Array<string>;
-  };
+  user: UserPresenceData;
   online: boolean;
   summaryFriendData: {};
   activity: {};
@@ -51,13 +52,22 @@ type RegisterRTTEventCallbackResult = {
   operation: 'GET_EVENTS';
   service: 'event';
 };
-type RegisterRTTPresenceCallbackResult = {};
+type RegisterRTTPresenceCallbackResult = {
+  data: Omit<UserPresence, 'user'> & {
+    from: UserPresenceData;
+  };
+  operation: 'INCOMING';
+  service: 'presence';
+};
 type GetEventsResult = {
   incoming_events: Array<IncomingEvents>;
 };
 type PresencePlatform = 'all' | 'brainCloud' | 'facebook';
-type RTTStatus = 'connected' | 'disconnected';
+type RTTStatus = 'connecting' | 'connected';
 type AddFriendsResult = {};
+type RemoveFriendsResult = {};
+type UpdateUserNameResult = {};
+type UpdateUserPictureResult = {};
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -76,7 +86,11 @@ declare module 'braincloud' {
         getEvents(callback: (result: Result<GetEventsResult>) => void);
       };
       friend: {
-        addFriends(profileIds: string[], callback: (result: Result<AddFriendsResult>) => void);
+        addFriends(profileIds: string[], callback?: (result: Result<AddFriendsResult>) => void);
+        removeFriends(
+          profileIds: string[],
+          callback?: (result: Result<RemoveFriendsResult>) => void
+        );
       };
       identity: {
         getIdentities(callback: (result: Result<GetIdentitiesResult>) => void);
@@ -86,9 +100,16 @@ declare module 'braincloud' {
         );
       };
       playerState: {
+        updateUserPictureUrl(
+          userPictureUrl: string | null,
+          callback?: (result: Result<UpdateUserPictureResult>) => void
+        );
+        updateUserName(userName: string, callback?: (result: Result<UpdateUserNameResult>) => void);
         logout(callback?: (result: Result<PlayerStateLogoutResult>) => void);
       };
       presence: {
+        forcePush(callback?: (result: Result<ForcePushResult>) => void);
+        setVisibility(visible: boolean, callback?: (result: Result<SetVisibilityResult>) => void);
         getPresenceOfFriends(
           platform: PresencePlatform,
           includeOffline: boolean,
@@ -118,9 +139,12 @@ declare module 'braincloud' {
         );
         disableRTT();
         isRTTEnabled(): boolean;
+        registerRTTPresenceCallback(callback?: (result: RegisterRTTPresenceCallbackResult) => void);
+        deregisterAllRTTCallbacks(): void;
       };
       getAppVersion(): string;
       getProfileId(): string;
+      resetCommunication(): void;
       setErrorCallback(callback?: (error: ErrorResult) => void);
     };
   }

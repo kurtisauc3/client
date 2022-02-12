@@ -2,12 +2,12 @@ import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AppLayout from './AppLayout';
 import Authenticate from './Authenticate';
+import CreateLobby from './CreateLobby';
 import Home from './Home';
 import IdleLayout from './IdleLayout';
-import Play from './Play';
 import PrivateLayout from './PrivateLayout';
-import Profile from './Profile';
 import PublicLayout from './PublicLayout';
+import UserState from './UserState';
 
 const Component: FC = () => {
   return (
@@ -19,8 +19,8 @@ const Component: FC = () => {
         <Route element={<PrivateLayout />}>
           <Route element={<IdleLayout />}>
             <Route path="" element={<Home />} />
-            <Route path="play" element={<Play />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="create-lobby" element={<CreateLobby />} />
+            <Route path="user-state" element={<UserState />} />
           </Route>
         </Route>
       </Route>

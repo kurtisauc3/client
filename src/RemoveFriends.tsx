@@ -16,10 +16,10 @@ const Component: FC = () => {
 
   return (
     <div>
-      <>add friends</>
+      <>remove friends</>
       <form
         onSubmit={handleSubmit(({ profileIds }) => {
-          api.friend.addFriends(profileIds);
+          api.friend.removeFriends(profileIds);
         })}
       >
         <div>

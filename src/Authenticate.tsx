@@ -14,8 +14,8 @@ const Component: FC = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      universalId: 'kurtistrainor@gmail.com',
-      password: 'kurtistrainor@gmail.com',
+      universalId: 'test',
+      password: 'test',
       forceCreate: false
     }
   });
