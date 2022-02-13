@@ -7,7 +7,7 @@ const Component: FC = () => {
   return (
     <div>
       <>profile presence</>
-      <div>{profile && <UserPresence value={profile} />}</div>
+      <div>{profile && <UserPresence userPresence={profile} />}</div>
     </div>
   );
 };

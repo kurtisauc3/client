@@ -8,6 +8,7 @@ const messages: IntlConfig['messages'] = {
   logout: 'logout',
   profileId: 'profile id',
   userName: 'user name',
-  userPictureUrl: 'user picture url'
+  userPictureUrl: 'user picture url',
+  contentString: 'content string'
 };
 export default messages;

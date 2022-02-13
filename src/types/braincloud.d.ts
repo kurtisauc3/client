@@ -53,11 +53,33 @@ type RegisterRTTEventCallbackResult = {
   service: 'event';
 };
 type RegisterRTTPresenceCallbackResult = {
-  data: Omit<UserPresence, 'user'> & {
+  data: {
     from: UserPresenceData;
+    online: boolean;
+    summaryFriendData: {};
+    activity: {};
   };
   operation: 'INCOMING';
   service: 'presence';
+};
+type RegisterRTTMessagingCallbackResult = {
+  data: {
+    msgbox: MessageBox;
+    msgId: string;
+    message: {
+      content: {
+        text: string;
+      };
+      from: {
+        id: string;
+        name: string;
+      };
+      sentAt: number;
+      to: string[];
+    };
+  };
+  operation: 'INCOMING';
+  service: 'messaging';
 };
 type GetEventsResult = {
   incoming_events: Array<IncomingEvents>;
@@ -68,6 +90,51 @@ type AddFriendsResult = {};
 type RemoveFriendsResult = {};
 type UpdateUserNameResult = {};
 type UpdateUserPictureResult = {};
+type MessageBox = 'inbox' | 'sent';
+type MessagesPageContext = {
+  pagination?: {
+    rowsPerPage: number;
+    pageNumber: number;
+  };
+  searchCriteria?: Record<string, any>;
+  sortCriteria?: {
+    mbCr: -1;
+  };
+};
+type MessageItem = {
+  msgbox: 'inbox' | 'sent';
+  msgId: string;
+  mbVer: number;
+  mbCr: number;
+  mbUp: number;
+  read: boolean;
+  message: {
+    sentAt: number;
+    from: {
+      id: string;
+      name: string;
+    };
+    to: string[];
+    content: {
+      text: string;
+    };
+  };
+  msVer: number;
+  msgCr: number;
+  msgUp: number;
+};
+type MessagesPage = {
+  count: number;
+  page: number;
+  items: Array<MessageItem>;
+};
+type GetMessagesPageResult = {
+  context: string;
+  results: MessagesPage;
+};
+type SendSimpleMessageResult = {};
+type MarkMessagesReadResult = {};
+type DeleteMessagesResult = {};
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -97,6 +164,27 @@ declare module 'braincloud' {
         attachNonLoginUniversalId(
           externalId: string,
           callback?: (result: Result<GetIdentitiesResult>) => void
+        );
+      };
+      messaging: {
+        getMessagesPage(
+          context: MessagesPageContext,
+          callback?: (result: Result<GetMessagesPageResult>) => void
+        );
+        markMessagesRead(
+          msgbox: MessageBox,
+          msgIds: string[],
+          callback?: (result: Result<MarkMessagesReadResult>) => void
+        );
+        deleteMessages(
+          msgbox: MessageBox,
+          msgIds: string[],
+          callback?: (result: Result<DeleteMessagesResult>) => void
+        );
+        sendMessageSimple(
+          toProfileIds: string[],
+          contentString: string,
+          callback?: (result: Result<SendSimpleMessageResult>) => void
         );
       };
       playerState: {
@@ -139,6 +227,9 @@ declare module 'braincloud' {
         );
         disableRTT();
         isRTTEnabled(): boolean;
+        registerRTTMessagingCallback(
+          callback?: (result: RegisterRTTMessagingCallbackResult) => void
+        );
         registerRTTPresenceCallback(callback?: (result: RegisterRTTPresenceCallbackResult) => void);
         deregisterAllRTTCallbacks(): void;
       };

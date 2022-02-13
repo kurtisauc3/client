@@ -6,7 +6,7 @@ const Component: FC = () => {
     <div>
       <>idle layout</>
       <div>
-        <NavLink to="idle">home</NavLink>
+        <NavLink to="">home</NavLink>
         <NavLink to="create-lobby">create lobby</NavLink>
         <NavLink to="user-state">user state</NavLink>
       </div>

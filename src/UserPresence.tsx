@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 
 type Props = {
-  value: UserPresence;
+  userPresence: UserPresence;
 };
 
-const Component: FC<Props> = ({ value }) => {
+const Component: FC<Props> = ({ userPresence }) => {
   return (
     <>
-      <div>online: {String(value.online)}</div>
-      <div>user.id: {value.user.id}</div>
-      <div>user.name: {value.user.name}</div>
-      <div>user.pic: {value.user.pic}</div>
+      <div>id: {userPresence.user.id}</div>
+      <div>name: {userPresence.user.name}</div>
+      <div>pic: {userPresence.user.pic}</div>
+      <div>online: {String(userPresence.online)}</div>
     </>
   );
 };

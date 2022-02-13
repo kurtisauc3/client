@@ -8,7 +8,7 @@ type FormValues = {
 };
 
 const Component: FC = () => {
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { register, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
       profileIds: []
     }
@@ -19,7 +19,15 @@ const Component: FC = () => {
       <>add friends</>
       <form
         onSubmit={handleSubmit(({ profileIds }) => {
-          api.friend.addFriends(profileIds);
+          api.presence.registerListenersForProfiles(profileIds, true, (result) => {
+            if ('data' in result) {
+              api.friend.addFriends(profileIds, (result2) => {
+                if ('data' in result2) {
+                  reset();
+                }
+              });
+            }
+          });
         })}
       >
         <div>

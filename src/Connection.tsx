@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from 'services/api';
 import { useAppDispatch } from 'store';
-import { loadFriends, loadProfile } from 'store/user';
+import { loadFriends, loadMessagesPage, loadProfile, loadUnreadMessages } from 'store/user';
 
 const Component: FC = ({ children }) => {
   const [status, setStatus] = useState<RTTStatus>('connecting');
@@ -18,16 +18,17 @@ const Component: FC = ({ children }) => {
           setStatus('connected');
           dispatch(loadProfile());
           dispatch(loadFriends());
-          api.rttService.registerRTTPresenceCallback((result) => {
-            // make this better...
-            if (result.data.from.id === api.getProfileId()) {
-              dispatch(loadProfile());
-            } else {
-              dispatch(loadFriends());
-            }
+          dispatch(loadUnreadMessages());
+          api.rttService.registerRTTMessagingCallback((result) => {
+            dispatch(loadMessagesPage(result.data.message.from.id));
           });
-          api.presence.registerListenersForProfiles([api.getProfileId()], true);
+          api.rttService.registerRTTPresenceCallback(() => {
+            // do this better
+            dispatch(loadProfile());
+            dispatch(loadFriends());
+          });
           api.presence.registerListenersForFriends('all', true);
+          api.presence.registerListenersForProfiles([api.getProfileId()], false);
         }
       },
       () => {

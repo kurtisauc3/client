@@ -8,7 +8,7 @@ type FormValues = {
 };
 
 const Component: FC = () => {
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { register, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
       profileIds: []
     }
@@ -19,7 +19,11 @@ const Component: FC = () => {
       <>remove friends</>
       <form
         onSubmit={handleSubmit(({ profileIds }) => {
-          api.friend.removeFriends(profileIds);
+          api.friend.removeFriends(profileIds, (result) => {
+            if ('data' in result) {
+              reset();
+            }
+          });
         })}
       >
         <div>
