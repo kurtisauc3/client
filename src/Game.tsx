@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 const Component: FC = () => {
-  // TODO: home
-  return <div>home</div>;
+  // TODO: game
+  return <div>game</div>;
 };
 
 export default Component;

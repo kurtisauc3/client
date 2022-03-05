@@ -6,21 +6,28 @@ const Component = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-  div {
-    border: 1px solid black;
-    padding: 5px;
-    margin: 5px;
-    background-color: rgba(0,0,0,0.05);
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex: 1;
   }
   a {
-    padding: 5px;
-    margin: 0 5px;
     &.active {
-      border: 1px solid black;
       text-decoration: none;
       color: inherit;
       pointer-events: none;
     }
+  }
+  div {
+    display: flex;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+      outline: none;
   }
 `;
 

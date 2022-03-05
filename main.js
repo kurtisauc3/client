@@ -34,10 +34,7 @@ function createAppWindow() {
   });
 }
 
-app.on('ready', () => {
-  createAppWindow();
-  createAppWindow();
-});
+app.on('ready', createAppWindow);
 app.on('window-all-closed', app.quit);
 
 ipcMain.on('appData', (event, arg) => {

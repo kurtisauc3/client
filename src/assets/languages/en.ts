@@ -1,10 +1,13 @@
 import { IntlConfig } from 'react-intl';
 
 const messages: IntlConfig['messages'] = {
-  universalId: 'universal id',
-  password: 'password',
-  forceCreate: 'force create',
-  submit: 'submit',
+  signIn: 'Sign in',
+  universalId: 'USERNAME',
+  password: 'PASSWORD',
+  forceCreate: 'Create new account',
+  submit: 'Submit',
+  offline: 'Offline',
+  online: 'Online',
   logout: 'logout',
   profileId: 'profile id',
   userName: 'user name',

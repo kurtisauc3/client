@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
 const Component: FC = () => {
-  return <div>create lobby</div>;
+  // TODO: create account
+  return <div>create account</div>;
 };
 
 export default Component;

@@ -8,13 +8,7 @@ type ErrorResult = {
   status: number;
   status_message: string;
 };
-
-type CustomCode = number;
 type Result<T> = SuccessResult<T> | ErrorResult;
-type AuthenticateUniversalResult = {};
-type PlayerStateLogoutResult = {};
-type EnableRTTResult = {};
-type StopListeningResult = {};
 type UserPresenceData = {
   id: string;
   name: string;
@@ -45,7 +39,7 @@ type FriendSummaryData = {
 };
 type IncomingEvents = {
   eventType: string;
-  eventData: Record<string, unknown>;
+  eventData: {};
 };
 type RegisterRTTEventCallbackResult = {
   data: IncomingEvents;
@@ -56,8 +50,8 @@ type RegisterRTTPresenceCallbackResult = {
   data: {
     from: UserPresenceData;
     online: boolean;
-    summaryFriendData: {};
-    activity: {};
+    summaryFriendData: Record<string, unknown>;
+    activity: OnlineUserPresenceActivity;
   };
   operation: 'INCOMING';
   service: 'presence';
@@ -86,10 +80,6 @@ type GetEventsResult = {
 };
 type PresencePlatform = 'all' | 'brainCloud' | 'facebook';
 type RTTStatus = 'connecting' | 'connected';
-type AddFriendsResult = {};
-type RemoveFriendsResult = {};
-type UpdateUserNameResult = {};
-type UpdateUserPictureResult = {};
 type MessageBox = 'inbox' | 'sent';
 type MessagesPageContext = {
   pagination?: {
@@ -132,9 +122,31 @@ type GetMessagesPageResult = {
   context: string;
   results: MessagesPage;
 };
+type FindUserByExactUniversalIdResult = {
+  matchedCount: number;
+  matches: Array<{
+    profileId: string;
+    profileName: string;
+    summaryFriendData: {} | null;
+    pictureUrl: string | null;
+  }>;
+};
+
 type SendSimpleMessageResult = {};
 type MarkMessagesReadResult = {};
 type DeleteMessagesResult = {};
+type AddFriendsResult = {};
+type RemoveFriendsResult = {};
+type UpdateUserNameResult = {};
+type UpdateUserPictureResult = {};
+type AuthenticateUniversalResult = {};
+type PlayerStateLogoutResult = {};
+type EnableRTTResult = {};
+type StopListeningResult = {};
+type UpdateActivityResult = {};
+type SetVisibilityResult = {};
+type RegisterRTTChatCallbackResult = {};
+type RegisterRTTLobbyCallbackResult = {};
 
 declare module 'braincloud' {
   class BrainCloudWrapper {
@@ -153,6 +165,10 @@ declare module 'braincloud' {
         getEvents(callback: (result: Result<GetEventsResult>) => void);
       };
       friend: {
+        findUserByExactUniversalId(
+          universalId: string,
+          callback?: (result: Result<FindUserByExactUniversalIdResult>) => void
+        );
         addFriends(profileIds: string[], callback?: (result: Result<AddFriendsResult>) => void);
         removeFriends(
           profileIds: string[],
@@ -197,6 +213,10 @@ declare module 'braincloud' {
       };
       presence: {
         forcePush(callback?: (result: Result<ForcePushResult>) => void);
+        updateActivity(
+          activity: OnlineUserPresenceActivity,
+          callback?: (result: Result<UpdateActivityResult>) => void
+        );
         setVisibility(visible: boolean, callback?: (result: Result<SetVisibilityResult>) => void);
         getPresenceOfFriends(
           platform: PresencePlatform,
@@ -231,6 +251,9 @@ declare module 'braincloud' {
           callback?: (result: RegisterRTTMessagingCallbackResult) => void
         );
         registerRTTPresenceCallback(callback?: (result: RegisterRTTPresenceCallbackResult) => void);
+        registerRTTChatCallback(callback?: (result: RegisterRTTChatCallbackResult) => void);
+        registerRTTEventCallback(callback?: (result: RegisterRTTEventCallbackResult) => void);
+        registerRTTLobbyCallback(callback?: (result: RegisterRTTLobbyCallbackResult) => void);
         deregisterAllRTTCallbacks(): void;
       };
       getAppVersion(): string;
