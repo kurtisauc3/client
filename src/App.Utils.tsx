@@ -1,25 +1,12 @@
-import { createContext, FC, useContext, useState } from 'react';
-
-type TAppState =
-  | {
-      view: 'public';
-    }
-  | {
-      view: 'private';
-    };
+import { createContext, FC, useCallback, useContext, useState } from 'react';
 
 interface IAppContext {
-  state: TAppState;
-  setState: React.Dispatch<TAppState>;
+  view: 'public' | 'private';
+  login: (data: { username: string; password: string }) => void;
+  logout: () => void;
 }
 
-const AppContext = createContext<IAppContext>({
-  state: {
-    view: 'public'
-  },
-  setState: () => {}
-});
-
+const AppContext = createContext<IAppContext | undefined>(undefined);
 const useApp = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
@@ -27,14 +14,15 @@ const useApp = () => {
   }
   return context;
 };
-
 const AppProvider: FC = (props) => {
-  // TODO: app provider
-  const [state, setState] = useState<IAppContext['state']>({
-    view: 'public'
-  });
-
-  return <AppContext.Provider value={{ state, setState }} {...props} />;
+  const [view, setView] = useState<IAppContext['view']>('public');
+  const login = useCallback<IAppContext['login']>((data) => {
+    setView('private');
+  }, []);
+  const logout = useCallback<IAppContext['logout']>(() => {
+    setView('public');
+  }, []);
+  return <AppContext.Provider value={{ view, login, logout }} {...props} />;
 };
 
 export { AppProvider, useApp };

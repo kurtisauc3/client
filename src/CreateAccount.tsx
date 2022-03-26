@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 const Component: FC = () => {
   // TODO: create account
-  return <div>create account</div>;
+  return <>create account</>;
 };
 
 export default Component;

@@ -1,44 +1,22 @@
-import { createContext, FC, useContext, useState } from 'react';
+import { useApp } from 'App.Utils';
+import { createContext, FC, useCallback, useContext, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 
-type TPublicState =
-  | {
-      view: 'entry';
-      username: string;
-    }
-  | {
-      view: 'login';
-      username: string;
-      password: string;
-    }
-  | {
-      view: 'createAccount';
-      username: string;
-      email: string;
-      password: string;
-      confirmPassword: string;
-    }
-  | {
-      view: 'resetPassword';
-      email: string;
-    };
-
-interface IPublicContext {
-  state: TPublicState;
-  setState: React.Dispatch<TPublicState>;
-  checkUniversalId: () => void;
-  resetPassword: () => void;
+export interface IEntryForm {
+  username: string;
+}
+export interface ILoginForm {
+  password: string;
 }
 
-const PublicContext = createContext<IPublicContext>({
-  state: {
-    view: 'entry',
-    username: ''
-  },
-  setState: () => {},
-  checkUniversalId: () => {},
-  resetPassword: () => {}
-});
+interface IPublicContext {
+  view: 'entry' | 'login' | 'createAccount' | 'resetPassword';
+  username: string;
+  onEntrySubmit: SubmitHandler<IEntryForm>;
+  onLoginSubmit: SubmitHandler<ILoginForm>;
+}
 
+const PublicContext = createContext<IPublicContext | undefined>(undefined);
 const usePublic = () => {
   const context = useContext(PublicContext);
   if (context === undefined) {
@@ -46,21 +24,25 @@ const usePublic = () => {
   }
   return context;
 };
-
 const PublicProvider: FC = (props) => {
-  // TODO: public provider
-  const [state, setState] = useState<IPublicContext['state']>({
-    view: 'entry',
-    username: ''
-  });
-  const checkUniversalId: IPublicContext['checkUniversalId'] = () => {};
-  const resetPassword: IPublicContext['resetPassword'] = () => {};
-
+  const { login } = useApp();
+  const [view, setView] = useState<IPublicContext['view']>('entry');
+  const [username, setUsername] = useState<IPublicContext['username']>('');
+  const onEntrySubmit = useCallback<IPublicContext['onEntrySubmit']>(
+    (data) => {
+      setUsername(data.username);
+      setView('login');
+    },
+    [setView]
+  );
+  const onLoginSubmit = useCallback<IPublicContext['onLoginSubmit']>(
+    ({ password }) => {
+      login({ username, password });
+    },
+    [login, username]
+  );
   return (
-    <PublicContext.Provider
-      value={{ state, setState, checkUniversalId, resetPassword }}
-      {...props}
-    />
+    <PublicContext.Provider value={{ view, username, onEntrySubmit, onLoginSubmit }} {...props} />
   );
 };
 

@@ -1,4 +1,3 @@
-import { NetworkProvider } from 'providers/network';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { IntlProvider } from 'react-intl';
@@ -9,10 +8,8 @@ import GlobalStyle from './GlobalStyle';
 ReactDOM.render(
   <React.StrictMode>
     <IntlProvider locale="en" defaultLocale="en" messages={messages}>
-      <NetworkProvider>
-        <GlobalStyle />
-        <App />
-      </NetworkProvider>
+      <GlobalStyle />
+      <App />
     </IntlProvider>
   </React.StrictMode>,
   document.getElementById('root')
